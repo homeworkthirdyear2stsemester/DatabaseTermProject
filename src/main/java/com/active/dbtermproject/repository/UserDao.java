@@ -1,6 +1,6 @@
 package com.active.dbtermproject.repository;
 
-import com.kkh.jdbcproject.domain.User;
+import com.active.dbtermproject.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

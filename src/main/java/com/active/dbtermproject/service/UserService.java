@@ -1,7 +1,7 @@
 package com.active.dbtermproject.service;
 
-import com.kkh.jdbcproject.domain.User;
-import com.kkh.jdbcproject.repository.UserDao;
+import com.active.dbtermproject.domain.User;
+import com.active.dbtermproject.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
