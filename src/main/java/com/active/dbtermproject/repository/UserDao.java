@@ -21,10 +21,22 @@ public class UserDao { // db접근 함수들
         return userNameList;
     }
 
+    // 회원 가입
     public int insert(User user) {
-        return this.jdbcTemplate.update(
-                "insert into user(id, name) values(?, ?)",
-                new Object[]{user.getId(), user.getName()}
-        );
+//        return this.jdbcTemplate.update(
+//                "insert into user(id, name) values(?, ?)",
+//                new Object[]{user.getId(), user.getName()}
+//        );
+        return -1;
+    }
+
+    // 회원 탈퇴
+    public int delete() {
+        return -1;
+    }
+
+    // 회원 정보 수정
+    public int update() {
+        return -1;
     }
 }
