@@ -2,6 +2,13 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    String id = (String) session.getAttribute("id");
+    if (id == null) {
+        response.sendRedirect("/user/login");
+    }
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +30,10 @@
     <span>도서대출목록</span>
     <table id="borrow-list">
         <thead>
-            <td>isbn</td><td>title</td><td>borrowDate</td><td>returnDate</td>
+        <td>isbn</td>
+        <td>title</td>
+        <td>borrowDate</td>
+        <td>returnDate</td>
         </thead>
         <tbody>
         <c:forEach var="borrow" items="${borrows}">
@@ -41,7 +51,8 @@
     <span>도서예약목록</span>
     <table id="reservation-list">
         <thead>
-            <td>isbn</td><td>ReservationDate</td>
+        <td>isbn</td>
+        <td>ReservationDate</td>
         </thead>
         <tbody>
         <c:forEach var="reservation" items="${reservations}">

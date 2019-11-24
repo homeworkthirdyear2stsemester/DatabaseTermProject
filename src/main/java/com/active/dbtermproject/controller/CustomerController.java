@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,11 @@ public class CustomerController { // front와 backend 연결 다리 역할
     @GetMapping("/register")
     public String register() {
         return "register";
+    }
+
+    @GetMapping("/editProfile")
+    public String editProfilePage() {
+        return "edit-profile";
     }
 
     @GetMapping("/mainUserPage")
@@ -63,13 +69,28 @@ public class CustomerController { // front와 backend 연결 다리 역할
         return "redirect:/user/login"; // 성공
     }
 
+    @PostMapping
+    public String deleteUserData(@RequestParam("id") String customerId,
+                                 HttpSession httpSession) {
+        if (httpSession.getAttribute("id") == null) {
+
+        }
+        return "redirect:/user/login"; // 회원탈퇴 성공
+    }
+
     @PostMapping("/loginCheck")
-    public String loginCheck(@ModelAttribute("customer") Customer customer) {
+    public String loginCheck(@RequestParam("id") String id,
+                             @RequestParam("password") String password,
+                             @RequestParam("action") String login,
+                             HttpSession httpSession) {
         /**
          * db에서 user정보 있는지 판별
          */
 //        return "redirect:/user/mainAdminPage"; admin 계정
-//        return "redirect:/user/mainUserPage"; 성공시
-        return "redirect:/user/login"; // 실패
+
+        httpSession.setAttribute("id", id);
+        return "redirect:/user/mainUserPage"; // 성공시
+
+//        return "redirect:/user/login"; // 실패
     }
 }
