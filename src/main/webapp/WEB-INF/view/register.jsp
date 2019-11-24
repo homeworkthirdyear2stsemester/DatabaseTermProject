@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>『BookFLIX』프로필 등록</title>
+    <title>BookFLIX 프로필 등록</title>
 </head>
 <body>
 <form:form action='custmerSave' modelAttribute="customer" method="POST">

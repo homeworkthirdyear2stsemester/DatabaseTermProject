@@ -19,15 +19,11 @@
     <input type="button" onclick="goToSearchBookPage()" name="search" value="도서목록 검색하기">
 </div>
 
-<div>
-    도서대출목록
+<div class="ex1">
+    <span>도서대출목록</span>
     <table id="borrow-list">
         <thead>
-        <tr>
-            <th>
-
-            </th>
-        </tr>
+            <td>isbn</td><td>title</td><td>borrowDate</td><td>returnDate</td>
         </thead>
         <tbody>
         <c:forEach var="borrow" items="${borrows}">
@@ -41,15 +37,11 @@
         </tbody>
     </table>
 </div>
-<div>
-    도서예약목록
+<div class="ex1">
+    <span>도서예약목록</span>
     <table id="reservation-list">
         <thead>
-        <tr>
-            <th>
-
-            </th>
-        </tr>
+            <td>isbn</td><td>ReservationDate</td>
         </thead>
         <tbody>
         <c:forEach var="reservation" items="${reservations}">

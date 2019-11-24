@@ -1,17 +1,9 @@
-
-
-table {
-    border: 5px;
-    width: 400px;
-    text-align: center;
-}
-span{
+span {
     font: bold 20px/5px Georgia, serif;
-    color: Navy;
+    color: maroon;
 }
 .ex1{
     border-radius: 25px;
     border: 2px solid lightseagreen;
     padding:10px;
-
 }
