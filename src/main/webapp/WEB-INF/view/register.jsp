@@ -28,10 +28,6 @@
             <td><input type="password" name="password"></td>
         </tr>
         <tr>
-            <td>암호 재입력</td>
-            <td><input type="password" name="temp_password"></td>
-        </tr>
-        <tr>
             <td>이메일 주소</td>
             <td><input type="text" name="email"></td>
         </tr>
