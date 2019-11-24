@@ -23,16 +23,20 @@ public class CustomerDao { // db접근 함수들
 
     // 회원 가입
     public int insert(Customer customer) {
-//        return this.jdbcTemplate.update(
-//                "insert into user(id, name) values(?, ?)",
-//                new Object[]{user.getId(), user.getName()}
-//        );
-        return -1;
+        return this.jdbcTemplate.update(
+                "insert customer values(?, ?, ?, ?, ?, ?)",
+                customer.getId(), customer.getPassword(),
+                customer.getEmail(), customer.getName(),
+                customer.getPhoneNumber(), customer.getType()
+        );
     }
 
     // 회원 탈퇴
-    public int delete() {
-        return -1;
+    public int delete(Customer customer) {
+        return this.jdbcTemplate.update(
+                "delete from customer where id=?",
+                customer.getId()
+        );
     }
 
     // 회원 정보 수정
