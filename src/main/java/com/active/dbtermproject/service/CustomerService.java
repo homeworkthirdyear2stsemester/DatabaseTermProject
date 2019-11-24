@@ -34,6 +34,11 @@ public class CustomerService { // 예외처리 및 데이터 가공 등등을 �
         return this.customerDao.update(customer, newInfo);
     }
 
+    // id에 해당하는 customer 객체를 반환하는 함수
+    public Customer getCustomerByIdService(String customerId) {
+        return this.customerDao.getCustomerById(customerId);
+    }
+
     public List<String> getAllUserNames() {
         return this.customerDao.getAllUserNames();
     }
