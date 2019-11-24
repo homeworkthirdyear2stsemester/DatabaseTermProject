@@ -25,7 +25,7 @@ CREATE TABLE `teamproject`.`book` (
     ON UPDATE CASCADE);
     
 CREATE TABLE `teamproject`.`borrow` (
-  `borrow_number` INT(10) NOT NULL,
+  `borrow_number` INT(10) NOT NULL AUTO_INCREMENT,
   `isbn` VARCHAR(13) NULL,
   `title` VARCHAR(60) NULL,
   `customer_id` VARCHAR(20) NULL,
