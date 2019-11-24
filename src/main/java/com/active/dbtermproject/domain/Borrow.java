@@ -8,7 +8,6 @@ import java.sql.Date;
 @Data
 @Builder
 public class Borrow {
-
     private int borrowNumber;
     private String isbn;
     private String title;
