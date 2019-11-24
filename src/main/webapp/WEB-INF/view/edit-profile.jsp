@@ -16,10 +16,6 @@
             <th colspan="2">프로필 수정하기</th>
         </tr>
         <tr>
-            <td>이름 재입력</td>
-            <td><input type="text" name="name"></td>
-        </tr>
-        <tr>
             <td>암호 재입력</td>
             <td><input type="password" name="password"></td>
         </tr>

@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%
+    String customer = (String) session.getAttribute("id");
+    if (customer != null) {
+        response.sendRedirect("/user/mainUserPage");
+    }
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +15,6 @@
     <link rel="stylesheet" href="/resources/css/login.css">
 </head>
 <body>
-
 <form:form action="loginCheck" modelAttribute="customer" method="POST">
     <table border="1" align="center" width="500">
         <tr>
