@@ -100,4 +100,9 @@ public class CustomerController { // front와 backend 연결 다리 역할
         }
         return "redirect:/user/login"; // 실패
     }
+
+    @PostMapping("/changeCustomerData")
+    public String changeCustomerData(@ModelAttribute("customer") Customer customer) {
+        return null;
+    }
 }
