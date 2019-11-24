@@ -23,18 +23,11 @@
             <input type="submit" name="action" value="검색">
         </div>
         <div>
-            //여기에 검색결과와 일치하는 도서명 혹은 ISBN 출력
+            <!-- 여기에서 검색한 책의 내용이 추가되어야 함 -->
+            <a href="main-user.jsp">대출</a>
+            <a href="main-user.jsp">예약</a><br>
         </div>
     </div>
-    <div class="ex2">
-        <div>
-            //여기에 정보 뜨게 하기
-        </div>
-        <input type="submit" name="action" value="대출">
-        <input type="submit" name="action" value="예약">
-    </div>
-
-
 </form:form>
 
 </body>
