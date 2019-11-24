@@ -6,8 +6,7 @@ import java.util.Date;
 
 @Data
 public class Borrow {
-
-    private int borrow_number;
+    private int borrowNumber;
     private String isbn;
     private String title;
     private String userId;

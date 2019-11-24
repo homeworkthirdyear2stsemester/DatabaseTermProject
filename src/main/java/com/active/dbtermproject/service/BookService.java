@@ -11,4 +11,8 @@ import java.util.List;
 public class BookService { // 예외처리 및 데이터 가공 등등을 해야함
     @Autowired
     private BookDao bookDao;
+
+    public int insertBook(Book book) {
+        return this.bookDao.insert(book);
+    }
 }
