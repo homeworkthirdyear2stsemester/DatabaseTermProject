@@ -74,4 +74,10 @@ public class CustomerDao { // db접근 함수들
                         .phoneNumber(rs.getString("phone_number"))
                         .type(rs.getString("type")).build(), customerId);
     }
+
+    public String getTypeById(String customerId) {
+        return jdbcTemplate.queryForObject(
+                "select type from customer c where c.id=?",
+                new Object[]{customerId}, String.class);
+    }
 }
