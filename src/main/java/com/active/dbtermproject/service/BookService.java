@@ -33,13 +33,21 @@ public class BookService { // 예외처리 및 데이터 가공 등등을 해야
         return this.bookDao.delete(book);
     }
 
+    //도서 정보 갱신
+    /**
+     *
+     * @param book : isbn,title,author,publisher,isBorrow,customerId 순서대로 갱신
+     * @return
+     */
+    public int updateBook(Book book){ return this.bookDao.update(book); }
+
     //도서 검색
     /**
      *
      * @param book : book.isbn
-     * @return : 리턴 무조건 한개
+     * @return : 리턴 찾은 책 한개
      */
-    public Optional<Book> searcheBookByIsbn(Book book) {
+    public Optional<Book> searchBookByIsbn(Book book) {
         return this.bookDao.searchByIsbn(book);
     }
 
@@ -47,10 +55,11 @@ public class BookService { // 예외처리 및 데이터 가공 등등을 해야
     /**
      *
      * @param book : book.title
-     * @return : 리턴 여러개 가능
+     * @return : 리턴 찾은 책 여러개 가능
      */
-    public List<Book> searcheBookByTitle(Book book) {
+    public List<Book> searchBookByTitle(Book book) {
         return this.bookDao.searchByTitle(book);
     }
+
 
 }

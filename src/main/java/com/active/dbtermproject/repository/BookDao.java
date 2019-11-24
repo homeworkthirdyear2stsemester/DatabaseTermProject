@@ -38,9 +38,10 @@ public class BookDao { // db접근 함수들
 
     // 도서 정보 수정
     public int update(Book book) {
-
-
-        return -1;
+        return this.jdbcTemplate.update(
+                "update teamproject.book set book.title=?,author=?,publisher=?,is_borrow=?,customer_id=? where book.isbn=?;",
+                book.getTitle(),book.getAuthor(),book.getPublisher(),book.getIsBorrow(),book.getCustomerId(),book.getIsbn()
+        );
     }
 
     // 도서 ISBN으로 검색
