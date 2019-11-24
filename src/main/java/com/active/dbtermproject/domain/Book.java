@@ -6,10 +6,10 @@ import lombok.Data;
 @Data
 @Builder
 public class Book {
-    private String isbn;
-    private String title;
-    private String author;
-    private String publisher;
-    private int isBorrow;
-    private String customerId;
+    public String isbn;
+    public String title;
+    public String author;
+    public String publisher;
+    public int isBorrow;
+    public String customerId;
 }
