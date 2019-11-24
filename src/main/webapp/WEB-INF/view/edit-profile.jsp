@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<form:form action="editProfile" modelAttribute="customer" method="POST">
+<form:form action="loginCheck" modelAttribute="customer" method="POST">
     <table border="1" align="center" width="500">
         <tr>
             <th colspan="2">프로필 수정하기</th>
@@ -22,10 +22,6 @@
         <tr>
             <td>암호 재입력</td>
             <td><input type="password" name="password"></td>
-        </tr>
-        <tr>
-            <td>암호 재입력</td>
-            <td><input type="password" name="temp_password"></td>
         </tr>
         <tr>
             <td>이메일 주소 재설정</td>
