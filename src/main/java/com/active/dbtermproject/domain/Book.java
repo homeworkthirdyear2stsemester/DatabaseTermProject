@@ -9,5 +9,5 @@ public class Book {
     private String author;
     private String publisher;
     private int isBorrow;
-    private String Customid;
+    private String customerId;
 }
