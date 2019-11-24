@@ -39,7 +39,8 @@ public class CustomerService { // 예외처리 및 데이터 가공 등등을 �
         return this.customerDao.getCustomerById(customerId);
     }
 
-    public List<String> getAllUserNames() {
-        return this.customerDao.getAllUserNames();
+    // 모든 회원들 반환 (Customer table 전체 반환)
+    public List<Customer> getAllCustomers() {
+        return null;
     }
 }

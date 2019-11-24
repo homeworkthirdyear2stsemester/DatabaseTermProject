@@ -29,4 +29,11 @@ public class BorrowDao { // db접근 함수들
                         "VALUES (?, ?, ?, curdate(), adddate(curdate(), ?), ?)",
                 borrow.getIsbn(), borrow.getTitle(), customerId, dueDate, 0);
     }
+
+    public int setReturnTrue(Borrow borrow) {
+        return jdbcTemplate.update(
+                "UPDATE borrow SET is_return=1 WHERE isbn=? AND customer_id=? AND is_return=0",
+                borrow.getIsbn(), borrow.getCustomerId()
+        );
+    }
 }
