@@ -5,10 +5,7 @@ import com.active.dbtermproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,6 +35,24 @@ public class UserController { // front와 backend 연결 다리 역할
     public String test(Model model) {
         model.addAttribute("user", new User());
 
-        return "test";       // 실제 호출될페이지 : /WEB-INF/jsp/test.jsp
+        return "test"; // 실제 호출될페이지 : /WEB-INF/jsp/test.jsp
+    }
+
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
+    }
+
+    @GetMapping("/register")
+    public String register() {
+        return "register";
+    }
+
+    @PostMapping("/loginCheck")
+    public String login(@ModelAttribute("user") User user) {
+        /**
+         * db에서 user정보 있는지 판별
+         */
+        return "redirect:/user/login";
     }
 }
