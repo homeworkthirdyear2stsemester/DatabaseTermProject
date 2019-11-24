@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<form:form action="loginCheck" modelAttribute="user" method="POST">
+<form:form action="loginCheck" modelAttribute="customer" method="POST">
     <table border="1" align="center" width="500">
         <tr>
             <th colspan="2"><span>도서대여서비스 BookFLIX</span>

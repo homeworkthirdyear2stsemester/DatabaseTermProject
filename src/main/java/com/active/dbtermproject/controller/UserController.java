@@ -1,6 +1,6 @@
 package com.active.dbtermproject.controller;
 
-import com.active.dbtermproject.domain.User;
+import com.active.dbtermproject.domain.Customer;
 import com.active.dbtermproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,13 +27,13 @@ public class UserController { // front와 backend 연결 다리 역할
     }
 
     @PostMapping(path = "/insert")
-    public int insertUser(@RequestBody User user) {
-        return this.userService.insertService(user);
+    public int insertUser(@RequestBody Customer customer) {
+        return this.userService.insertService(customer);
     }
 
     @GetMapping("/test") // localhost/user/test
     public String test(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new Customer());
 
         return "test"; // 실제 호출될페이지 : /WEB-INF/jsp/test.jsp
     }
@@ -49,7 +49,7 @@ public class UserController { // front와 backend 연결 다리 역할
     }
 
     @PostMapping("/loginCheck")
-    public String login(@ModelAttribute("user") User user) {
+    public String login(@ModelAttribute("user") Customer customer) {
         /**
          * db에서 user정보 있는지 판별
          */

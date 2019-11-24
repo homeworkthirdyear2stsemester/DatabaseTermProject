@@ -3,7 +3,7 @@ package com.active.dbtermproject.domain;
 import lombok.Data;
 
 @Data
-public class User {
+public class Customer {
     private String id;
     private String password;
     private String email;

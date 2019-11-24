@@ -17,7 +17,7 @@
 		*/
         //if(비번 일치)
         //if(일반 사용자)
-        response.sendRedirect("main-user.jsp");
+        response.sendRedirect("main-customer.jsp");
         //else(관리자)
         response.sendRedirect("main_Admin");
         //else(일치하지 않거나 해당 아이디가 존재하지 않는 경우)
