@@ -29,9 +29,10 @@ public class BookDao { // db접근 함수들
 
     // 도서 삭제
     public int delete(Book book) {
-
-
-        return -1;
+        return this.jdbcTemplate.update(
+                "delete from teamproject.book where isbn=?",
+                book.getIsbn()
+        );
     }
 
     // 도서 정보 수정
