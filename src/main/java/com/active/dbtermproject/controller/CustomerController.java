@@ -21,28 +21,6 @@ public class CustomerController { // front와 backend 연결 다리 역할
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping
-    public String check() {
-        return "Welcome";
-    }
-
-    @GetMapping(path = "/getusernames")
-    public List<String> getUserNames() {
-        return this.customerService.getAllUserNames();
-    }
-
-    @PostMapping(path = "/insert")
-    public int insertUser(@RequestBody Customer customer) {
-        return this.customerService.insertService(customer);
-    }
-
-    @GetMapping("/test") // localhost/user/test
-    public String test(Model model) {
-        model.addAttribute("user", new Customer());
-
-        return "test"; // 실제 호출될페이지 : /WEB-INF/jsp/test.jsp
-    }
-
     @GetMapping("/login")
     public String loginPage() {
         return "login";
@@ -81,6 +59,7 @@ public class CustomerController { // front와 backend 연결 다리 역할
 
     @PostMapping("/custmerSave")
     public String customerSave(@ModelAttribute("customer") Customer customer) {
+        // return "redirect:/user/register"; // 실패
         return "redirect:/user/login"; // 성공
     }
 
