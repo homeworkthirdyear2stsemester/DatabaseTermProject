@@ -28,7 +28,10 @@ public class CustomerController { // front와 backend 연결 다리 역할
     }
 
     @GetMapping("/register")
-    public String register() {
+    public String register(Model model) {
+        Customer customer = Customer.builder().build();
+        model.addAttribute("customer", customer);
+
         return "register";
     }
 
@@ -63,9 +66,13 @@ public class CustomerController { // front와 backend 연결 다리 역할
         return "main-user";
     }
 
-    @PostMapping("/custmerSave")
+    @PostMapping("/customerSave")
     public String customerSave(@ModelAttribute("customer") Customer customer) {
-        // return "redirect:/user/register"; // 실패
+        int insertResult = this.customerService.insertService(customer);
+        if (insertResult == 0) {
+            return "redirect:/user/register"; // 실패
+        }
+
         return "redirect:/user/login"; // 성공
     }
 
@@ -81,16 +88,16 @@ public class CustomerController { // front와 backend 연결 다리 역할
     @PostMapping("/loginCheck")
     public String loginCheck(@RequestParam("id") String id,
                              @RequestParam("password") String password,
-                             @RequestParam("action") String login,
                              HttpSession httpSession) {
-        /**
-         * db에서 user정보 있는지 판별
-         */
-//        return "redirect:/user/mainAdminPage"; admin 계정
+        Customer customer = this.customerService.getCustomerByIdService(id);
+        if (customer.getId().equals(id) && customer.getPassword().equals(password)) {
+            httpSession.setAttribute("id", id);
+            if (id.equals("Admin")) {
+                return "redirect:/user/mainAdminPage"; //admin 계정
+            }
 
-        httpSession.setAttribute("id", id);
-        return "redirect:/user/mainUserPage"; // 성공시
-
-//        return "redirect:/user/login"; // 실패
+            return "redirect:/user/mainUserPage"; // 성공시
+        }
+        return "redirect:/user/login"; // 실패
     }
 }
