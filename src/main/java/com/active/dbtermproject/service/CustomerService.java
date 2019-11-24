@@ -13,13 +13,25 @@ public class CustomerService { // 예외처리 및 데이터 가공 등등을 �
     private CustomerDao customerDao;
 
     // 회원 가입 : insert Customer
+    // id, password, email, name, phoneNumber, type 필요
     public int insertService(Customer customer) {
         return this.customerDao.insert(customer);
     }
 
     // 회원 삭제 : delete Customer
+    // id 필요
     public int deleteService(Customer customer) {
         return this.customerDao.delete(customer);
+    }
+
+    // 회원 정보 수정 : update Customer
+    // parameter
+    //  - customer : 변경 대상 회원의 정보.
+    //               id 필요
+    //  - newInfo : 변경 후의 회원 정보
+    //               password, email, name, phoneNumber, type 필요
+    public int updateService(Customer customer, Customer newInfo) {
+        return this.customerDao.update(customer, newInfo);
     }
 
     public List<String> getAllUserNames() {
