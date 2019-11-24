@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserService { // 예외처리 및 데이터 가공 등등을 해야함
+public class CustomerService { // 예외처리 및 데이터 가공 등등을 해야함
     @Autowired
     private CustomerDao customerDao;
 
