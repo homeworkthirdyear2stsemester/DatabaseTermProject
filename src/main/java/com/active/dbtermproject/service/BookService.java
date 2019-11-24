@@ -15,4 +15,8 @@ public class BookService { // 예외처리 및 데이터 가공 등등을 해야
     public int insertBook(Book book) {
         return this.bookDao.insert(book);
     }
+
+    public int deleteBook(Book book) {
+        return this.bookDao.delete(book);
+    }
 }
