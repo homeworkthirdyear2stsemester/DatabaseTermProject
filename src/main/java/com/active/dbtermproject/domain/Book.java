@@ -8,6 +8,6 @@ public class Book {
     private String title;
     private String author;
     private String publisher;
-    private int is_borrow;
+    private int isBorrow;
     private String Customid;
 }

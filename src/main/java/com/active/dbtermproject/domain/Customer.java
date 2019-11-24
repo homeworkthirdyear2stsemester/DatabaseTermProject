@@ -8,6 +8,6 @@ public class Customer {
     private String password;
     private String email;
     private String name;
-    private String phone_number;
+    private String phoneNumber;
     private String type;
 }
