@@ -2,3 +2,9 @@ span {
     font: bold 2em/1em Georgia, serif;
     color: Navy;
 }
+
+table {
+    border: 1px;
+    width: 260px;
+    align: "center";
+}
