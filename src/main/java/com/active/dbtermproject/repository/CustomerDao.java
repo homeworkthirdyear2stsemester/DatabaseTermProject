@@ -58,8 +58,20 @@ public class CustomerDao { // db접근 함수들
         );
     }
 
-    // 회원 정보 수정
-    public int update() {
-        return -1;
+    // 관리자인지 확인하는 함수?
+    public boolean isAdmin(Customer customer) {
+        return false;
+    }
+
+    public Customer getCustomerById(String customerId) {
+        return this.jdbcTemplate.queryForObject(
+                "select * from customer c where c.id=?",
+                (rs, rowNum) -> Customer.builder()
+                        .id(rs.getString("id"))
+                        .password(rs.getString("password"))
+                        .email(rs.getString("email"))
+                        .name(rs.getString("name"))
+                        .phoneNumber(rs.getString("phone_number"))
+                        .type(rs.getString("type")).build(), customerId);
     }
 }
