@@ -89,6 +89,5 @@ public class BookDao { // db접근 함수들
                 book.getIsbn()
         );
     }
-
 }
 

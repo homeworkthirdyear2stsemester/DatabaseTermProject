@@ -75,9 +75,16 @@ public class BookService { // 예외처리 및 데이터 가공 등등을 해야
         return this.bookDao.checkIfBorrowed(book);
     }
 
+    //대출 가능 유무
+    /**
+     *
+     * @param book : book.isbn
+     * @return :1이면 대여가능, 0이면 대여 불가능
+     */
+    public int isPossibleToBorrow(Book book){return this.bookDao.checkIfBorrowed(book);}
+
 
     //반납 승인(DB Book.is_borrow 0으로 갱신)
-
     /**
      * @param book : book.isbn
      * @return
