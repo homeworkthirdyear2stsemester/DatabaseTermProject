@@ -44,4 +44,23 @@ public class BorrowService { // 예외처리 및 데이터 가공 등등을 해�
     public List<Map<String, Object>> getTop10CustomerByPeriod(Date start, Date end) {
         return borrowDao.getTop10CustomerByPeriod(start, end);
     }
+
+    //회원의 대출 현황 조회
+    /**
+     *
+     * @param customerId : 회원 id
+     * @return : 회원의 대출 현황 List
+     */
+    public List<Borrow> getAllBorrowsById(String customerId) {
+        return borrowDao.getAllBorrowsById(customerId);
+    }
+
+    // 반납된 대출 기록 삭제
+    /**
+     *
+     * @return : 삭제된 대출 기록 수
+     */
+    public int deleteReturnedBorrows() {
+        return borrowDao.deleteReturnedBorrows();
+    }
 }
