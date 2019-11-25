@@ -35,4 +35,12 @@ public class ReservationService {
      * @return
      */
     public List<Reservation> showAllReservation(Reservation reservation) {return this.reservationDao.findAll(reservation);}
+
+    //주어진 isbn을 예약한 인원 수
+    /**
+     *
+     * @param reservation : reservation.isbn
+     * @return
+     */
+    public int howManyReservationPerIsbn(Reservation reservation){return this.reservationDao.howManyPerIsbn(reservation);}
 }
