@@ -37,7 +37,7 @@ public class ReservationDao {
     }
 
     //회원당 예약 목록 조회
-    public List<Reservation> findAll(String customerId) {
+    public List<Reservation> getReservationsByCustomerId(String customerId) {
         return jdbcTemplate.query(
                 "select * from teamproject.reservation where customer_id=?",
                 (rs, rowNum) ->
@@ -63,7 +63,7 @@ public class ReservationDao {
     }
 
     //위에서 작성한 함수를 호출해 isbn이 예약한 리스트 가져와 사이즈 리턴
-    public int howManyPerIsbn(Reservation reservation) {
+    public int countReservationByIsbn(Reservation reservation) {
         List<Reservation> listOfReservation = getAllReservByIsbn(reservation);
         return listOfReservation.size();
     }

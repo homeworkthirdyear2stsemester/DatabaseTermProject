@@ -90,7 +90,7 @@ public class BookDao { // db접근 함수들
         );
     }
 
-    public List<Book> showAll() {
+    public List<Book> getAllBooks() {
         return jdbcTemplate.query(
                 "select * from teamproject.book",
                 (rs, rowNum) ->

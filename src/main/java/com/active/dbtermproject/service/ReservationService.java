@@ -34,7 +34,7 @@ public class ReservationService {
      * @param customerId : user_id
      * @return
      */
-    public List<Reservation> showAllReservation(String customerId) {return this.reservationDao.findAll(customerId);}
+    public List<Reservation> getReservationsByCustomerId(String customerId) {return this.reservationDao.getReservationsByCustomerId(customerId);}
 
     //주어진 isbn을 예약한 인원 수
     /**
@@ -42,7 +42,7 @@ public class ReservationService {
      * @param reservation : reservation.isbn
      * @return
      */
-    public int howManyReservationPerIsbn(Reservation reservation){return this.reservationDao.howManyPerIsbn(reservation);}
+    public int countReservationByIsbn(Reservation reservation){return this.reservationDao.countReservationByIsbn(reservation);}
 
     //주어진 isbn이 예약된 목록들 반환
     /**
