@@ -5,6 +5,7 @@ import com.active.dbtermproject.domain.Customer;
 import com.active.dbtermproject.domain.Reservation;
 import com.active.dbtermproject.service.BorrowService;
 import com.active.dbtermproject.service.CustomerService;
+import com.active.dbtermproject.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,8 @@ public class CustomerController { // front와 backend 연결 다리 역할
     private CustomerService customerService;
     @Autowired
     private BorrowService borrowService;
+    @Autowired
+    private ReservationService reservationService;
 
     @GetMapping("/deleteError")
     public String errorHandler() {
@@ -63,20 +66,12 @@ public class CustomerController { // front와 backend 연결 다리 역할
     public String mainUserPage(Model model, HttpSession httpSession) {
         Object id = httpSession.getAttribute("id");
         if (id == null) {
-            if (id.equals("Admin")) {
-                return "redirect:/user/mainAdminPage";
-            }
             return "redirect:/user/login";
-        }
-        Random random = new Random(200);
-        List<Reservation> reservationList = new ArrayList<>();
-        for (int index = 0; index < 5; index++) {
-            reservationList.add(Reservation.builder()
-                    .isbn(Integer.toString(random.nextInt()))
-                    .customerId(Integer.toString(random.nextInt()))
-                    .reservDate(new Date(index))
-                    .build());
-        }
+        } else if (id.equals("Admin")) {
+            return "redirect:/user/mainAdminPage";
+        } // login 예외
+
+        List<Reservation> reservationList = this.reservationService.showAllReservation((String) id));
 
         List<Borrow> borrowList = this.borrowService.getAllBorrowsById((String) id);
         if (borrowList == null) {

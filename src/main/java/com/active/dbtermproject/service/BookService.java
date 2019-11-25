@@ -78,15 +78,19 @@ public class BookService { // 예외처리 및 데이터 가공 등등을 해야
     //반납 승인(DB Book.is_borrow 0으로 갱신)
 
     /**
-     * @param book : book.isbn
+     * @param isbn : book.isbn
      * @return
      */
-    public int allowToReturnBook(Book book) { return this.bookDao.allowReturn(book); }
+    public int allowToReturnBook(String isbn) {
+        return this.bookDao.allowReturn(isbn);
+    }
 
     //전체 도서 목록 조회
+
     /**
-     *
      * @return: 전제 도서 목록 리턴
      */
-    public List<Book> showAllBooks() { return this.bookDao.showAll(); }
+    public List<Book> showAllBooks() {
+        return this.bookDao.showAll();
+    }
 }

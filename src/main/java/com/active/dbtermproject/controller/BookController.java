@@ -1,8 +1,10 @@
 package com.active.dbtermproject.controller;
 
 import com.active.dbtermproject.domain.Book;
+import com.active.dbtermproject.domain.Borrow;
 import com.active.dbtermproject.domain.Reservation;
 import com.active.dbtermproject.service.BookService;
+import com.active.dbtermproject.service.BorrowService;
 import com.active.dbtermproject.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,8 @@ public class BookController { // front와 backend 연결 다리 역할
     private BookService bookService;
     @Autowired
     private ReservationService reservationService;
+    @Autowired
+    private BorrowService borrowService;
 
     @GetMapping("/bookSearchPage")
     public String bookSearch() {
@@ -144,5 +148,28 @@ public class BookController { // front와 backend 연결 다리 역할
         }
 
         return "redirect:/user/mainUserPage";
+    }
+
+    @PostMapping("/authorizeReturn")
+    public String authorizeReturnPage(Model model) {
+        List<Borrow> authorizedReturnList = new ArrayList<>();
+        model.addAttribute("authorizedReturnList", authorizedReturnList);
+
+        return "authorizeReturn";
+    }
+
+    @GetMapping("/returnBookError")
+    public String returnBookError() {
+        return "error/return-book-error-handler";
+    }
+
+    @PostMapping("/comfirmReturnBorrow")
+    public String comfirmReturnBorrow(@RequestParam("bookIsbn") String isbn) {
+        int result = this.bookService.allowToReturnBook(isbn);
+        if (result == 0) {
+            return "redirect:/book/returnBookError";
+        }
+
+        return "redirect:/book/authorizeReturn";
     }
 }
