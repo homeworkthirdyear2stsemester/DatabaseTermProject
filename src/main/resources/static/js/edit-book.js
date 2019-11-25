@@ -1,3 +1,3 @@
-function editBook(){
-    location.href = "/user/main-admin"
+function editBook() {
+    location.href = "/book/editBook"
 }
