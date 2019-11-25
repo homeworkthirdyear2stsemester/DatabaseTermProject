@@ -74,4 +74,11 @@ public class BorrowDao { // db접근 함수들
                 , customerId
                 );
     }
+
+    // 반납된 대출 기록 삭제
+    public int deleteReturnedBorrows() {
+        return this.jdbcTemplate.update(
+                "DELETE FROM borrow WHERE is_return=1"
+        );
+    }
 }
