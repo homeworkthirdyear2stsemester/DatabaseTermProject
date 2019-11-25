@@ -83,25 +83,26 @@ public class BookDao { // db접근 함수들
     }
 
     //입력받은 isbn으로 is_borrow=0 갱신
-    public int allowReturn(Book book) {
+    public int allowReturn(String isbn) {
         return this.jdbcTemplate.update(
                 "update teamproject.book set is_borrow=0 where book.isbn=?;",
-                book.getIsbn()
+                isbn
         );
     }
 
-    public List<Book> showAll(){   return jdbcTemplate.query(
-            "select * from teamproject.book",
-            (rs, rowNum) ->
-                    Book.builder()
-                            .isbn(rs.getString("isbn"))
-                            .title(rs.getString("title"))
-                            .author(rs.getString("author"))
-                            .publisher(rs.getString("publisher"))
-                            .isBorrow(rs.getInt("is_borrow"))
-                            .customerId(rs.getString("customer_id"))
-                            .build()
-    );
+    public List<Book> showAll() {
+        return jdbcTemplate.query(
+                "select * from teamproject.book",
+                (rs, rowNum) ->
+                        Book.builder()
+                                .isbn(rs.getString("isbn"))
+                                .title(rs.getString("title"))
+                                .author(rs.getString("author"))
+                                .publisher(rs.getString("publisher"))
+                                .isBorrow(rs.getInt("is_borrow"))
+                                .customerId(rs.getString("customer_id"))
+                                .build()
+        );
     }
 
 }

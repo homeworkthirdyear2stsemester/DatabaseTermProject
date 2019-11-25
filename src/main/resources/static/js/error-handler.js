@@ -22,3 +22,8 @@ function deleteReservationErrorHander() {
     alert("wrong reservation data");
     location.href = "/user/mainUserPage";
 }
+
+function returnBookErrorHandler() {
+    alert("return trascation is failed");
+    location.href = "/book/authorizeReturn";
+}
