@@ -6,7 +6,6 @@
 <head>
     <meta charset="UTF-8">
     <title>BookFLIX 회원정보수정</title>
-    <link rel="stylesheet" href="/resources/css/edit-profile.css">
 </head>
 <body>
 
