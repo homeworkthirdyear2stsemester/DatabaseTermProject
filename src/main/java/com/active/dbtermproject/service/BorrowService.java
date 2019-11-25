@@ -38,6 +38,8 @@ public class BorrowService { // 예외처리 및 데이터 가공 등등을 해�
      * @param start : Date (yyyy-mm-dd)
      * @param end : Date (yyyy-mm-dd)
      * @return : start~end 사이에 대출을 가장 많이 한 Top 10 Customer List
+     *           - 인덱스 순서가 곧 순위
+     *           - 마지막 값이 해당 회원의 대출 수
      */
     public List<Map<String, Object>> getTop10CustomerByPeriod(Date start, Date end) {
         return borrowDao.getTop10CustomerByPeriod(start, end);
