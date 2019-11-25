@@ -6,33 +6,32 @@
 <head>
     <meta charset="UTF-8">
     <title>BookFLIX 회원정보수정</title>
-    <link rel="stylesheet" href="/resources/css/edit-profile.css">
 </head>
 <body>
 
-<form:form action="loginCheck" modelAttribute="customer" method="POST">
+<form:form action="changeCustomerData" modelAttribute="customer" method="POST">
     <table border="1" align="center" width="500">
         <tr>
             <th colspan="2">프로필 수정하기</th>
         </tr>
         <tr>
             <td>암호 재입력</td>
-            <td><input type="password" name="password"></td>
+            <td><form:password path="password"/></td>
         </tr>
         <tr>
             <td>이메일 주소 재설정</td>
-            <td><input type="text" name="email"></td>
+            <td><form:input path="email"/></td>
         </tr>
         <tr>
             <td>전화번호 재입력</td>
-            <td><input type="text" name="phone_number"></td>
+            <td><form:input path="phoneNumber"/></td>
         </tr>
         <tr>
             <td>회원 분류</td>
             <td>
-                <input type="radio" name="type" value="학부생" checked>학부생<br>
-                <input type="radio" name="type" value="대학원생">대학원생<br>
-                <input type="radio" name="type" value="교직원">교직원<br>
+                <form:radiobutton path="type" value="10"/>학부생<br>
+                <form:radiobutton path="type" value="30"/>대학원생<br>
+                <form:radiobutton path="type" value="60"/>교직원<br>
             </td>
         </tr>
         <tr>

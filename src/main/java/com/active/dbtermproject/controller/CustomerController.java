@@ -22,25 +22,36 @@ public class CustomerController { // front와 backend 연결 다리 역할
     @Autowired
     private CustomerService customerService;
 
+    @GetMapping("/deleteError")
+    public String errorHandler() {
+        return "error/delete-error-handler";
+    }
+
     @GetMapping("/login")
-    public String loginPage() {
+    public String loginPage(Model model) {
+        model.addAttribute("customer", new Customer());
         return "login";
+    }
+
+    @GetMapping("/loginError")
+    public String loginError() {
+        return "error/login-error-handler";
     }
 
     @GetMapping("/register")
     public String register(Model model) {
-        Customer customer = Customer.builder().build();
-        model.addAttribute("customer", customer);
+        model.addAttribute("customer", new Customer());
 
         return "register";
     }
 
     @GetMapping("/editProfile")
-    public String editProfilePage() {
+    public String editProfilePage(Model model) {
+        model.addAttribute("customer", new Customer());
         return "edit-profile";
     }
 
-    @GetMapping("/mainUserPage")
+    @GetMapping("/mainUserPage") // 수정해야함
     public String mainUserPage(Model model) {
         Random random = new Random(200);
         List<Reservation> reservationList = new ArrayList<>();
@@ -76,28 +87,56 @@ public class CustomerController { // front와 backend 연결 다리 역할
         return "redirect:/user/login"; // 성공
     }
 
-    @PostMapping
-    public String deleteUserData(@RequestParam("id") String customerId,
-                                 HttpSession httpSession) {
-        if (httpSession.getAttribute("id") == null) {
-
+    @GetMapping("/deleteUserData")
+    public String deleteUserData(HttpSession httpSession) {
+        Object customerId = httpSession.getAttribute("id");
+        if (customerId != null
+                && this.customerService.deleteService((String) customerId) == 1) {
+            httpSession.removeAttribute("id");
+            return "redirect:/user/login"; // 회원탈퇴 성공
         }
-        return "redirect:/user/login"; // 회원탈퇴 성공
+
+        return "redirect:/user/deleteError";
     }
 
     @PostMapping("/loginCheck")
-    public String loginCheck(@RequestParam("id") String id,
-                             @RequestParam("password") String password,
+    public String loginCheck(@ModelAttribute("customer") Customer customer,
                              HttpSession httpSession) {
-        Customer customer = this.customerService.getCustomerByIdService(id);
-        if (customer.getId().equals(id) && customer.getPassword().equals(password)) {
-            httpSession.setAttribute("id", id);
-            if (id.equals("Admin")) {
+        Customer databaseCustomer = this.customerService.getCustomerByIdService(customer.getId());
+        if (databaseCustomer.getId().equals(customer.getId()) &&
+                databaseCustomer.getPassword().equals(customer.getPassword())) {
+            httpSession.setAttribute("id", customer.getId());
+            if (customer.getId().equals("Admin")) {
                 return "redirect:/user/mainAdminPage"; //admin 계정
             }
 
             return "redirect:/user/mainUserPage"; // 성공시
         }
         return "redirect:/user/login"; // 실패
+    }
+
+    @PostMapping("/changeCustomerData")
+    public String changeCustomerData(@ModelAttribute("customer") Customer customer, HttpSession httpSession) {
+
+        Object id = httpSession.getAttribute("id");
+        if (id == null) {
+            return "redirect:/user/loginError"; // login 안되어있을 경우
+        }
+
+        try {
+            int result = this.customerService.updateService((String) id, customer);
+            if (result != 0) {
+                if (id.equals("Admin")) {
+                    return "redirect:/user/mainAdminPage"; //admin 계정
+                }
+                httpSession.removeAttribute("id"); // session 제거
+
+                return "redirect:/user/login"; // 성공
+            }
+        } catch (Exception e) {
+            return "redirect:/user/edit-profile";
+        }
+
+        return "redirect:/user/editProfile";
     }
 }
