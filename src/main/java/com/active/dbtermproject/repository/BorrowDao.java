@@ -56,4 +56,22 @@ public class BorrowDao { // db접근 함수들
                 , start, end
         );
     }
+
+    //회원의 대출 현황 조회
+    public List<Borrow> getAllBorrowsById(String customerId) {
+        return this.jdbcTemplate.query(
+                "SELECT * FROM borrow WHERE customer_id=? AND is_return=0",
+                (rs, rowNum) ->
+                        Borrow.builder()
+                                .borrowNumber(rs.getInt("borrow_number"))
+                                .isbn(rs.getString("isbn"))
+                                .title(rs.getString("title"))
+                                .customerId(rs.getString("customer_id"))
+                                .borrowDate(rs.getDate("borrow_date"))
+                                .returnDate(rs.getDate("return_date"))
+                                .isReturn(rs.getInt("is_return"))
+                                .build()
+                , customerId
+                );
+    }
 }
