@@ -24,7 +24,7 @@ public class ReservationDao {
     public int insert(Reservation reservation) {
         return this.jdbcTemplate.update(
                 "insert into teamproject.reservation(customer_id,isbn,reserv_date) values(?,?,?)",
-                new Object[]{reservation.getCustomerId(),reservation.getIsbn(),reservation.getReservDate()}
+                new Object[]{reservation.getCustomerId(), reservation.getIsbn(), reservation.getReservDate()}
         );
     }
 
@@ -37,7 +37,7 @@ public class ReservationDao {
     }
 
     //회원당 예약 목록 조회
-    public List<Reservation> findAll(Reservation reservation) {
+    public List<Reservation> findAll(String customerId) {
         return jdbcTemplate.query(
                 "select * from teamproject.reservation where customer_id=?",
                 (rs, rowNum) ->
@@ -46,7 +46,7 @@ public class ReservationDao {
                                 .isbn(rs.getString("isbn"))
                                 .reservDate(rs.getDate("reserv_date"))
                                 .build()
-                , reservation.getCustomerId()
+                , customerId
         );
     }
 
@@ -63,8 +63,8 @@ public class ReservationDao {
     }
 
     //위에서 작성한 함수를 호출해 isbn이 예약한 리스트 가져와 사이즈 리턴
-    public int howManyPerIsbn(Reservation reservation){
-        List<Reservation> listOfReservation=getAllReservByIsbn(reservation);
+    public int howManyPerIsbn(Reservation reservation) {
+        List<Reservation> listOfReservation = getAllReservByIsbn(reservation);
         return listOfReservation.size();
     }
 
@@ -85,12 +85,12 @@ public class ReservationDao {
         );
         Borrow resulBorrow = temp.orElse(null);
         Date reuturnDate = resulBorrow.getReturnDate();//해당 isbn의 return_date가져오기
-        return calculateDate(reuturnDate,reservation);
+        return calculateDate(reuturnDate, reservation);
     }
 
-    private Date calculateDate(Date inputDate,Reservation reservation) {
+    private Date calculateDate(Date inputDate, Reservation reservation) {
         String type;
-        int plusDate=0;
+        int plusDate = 0;
         Calendar cal = Calendar.getInstance();
         cal.setTime(inputDate);
 
@@ -104,11 +104,11 @@ public class ReservationDao {
         for (int i = 0; i < listOfReservation.size(); i++) {//리스트 사이즈만큼 반복
             type = customerDao.getTypeById(listOfReservation.get(i).getCustomerId());//리스트 원소마다 타입 가져옴
             if (type.equals("30")) {//타입마다 다른 일수 합치기
-                plusDate+=30;
+                plusDate += 30;
             } else if (type.equals("60")) {
-                plusDate+=60;
+                plusDate += 60;
             } else {
-                plusDate+=10;
+                plusDate += 10;
             }
         }
         cal.add(cal.DATE, plusDate);

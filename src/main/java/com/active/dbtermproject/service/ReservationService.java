@@ -31,10 +31,10 @@ public class ReservationService {
     //각 회원당 예약목록 조회
     /**
      *
-     * @param reservation : user_id
+     * @param customerId : user_id
      * @return
      */
-    public List<Reservation> showAllReservation(Reservation reservation) {return this.reservationDao.findAll(reservation);}
+    public List<Reservation> showAllReservation(String customerId) {return this.reservationDao.findAll(customerId);}
 
     //주어진 isbn을 예약한 인원 수
     /**

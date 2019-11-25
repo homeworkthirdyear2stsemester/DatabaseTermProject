@@ -71,7 +71,7 @@ public class CustomerController { // front와 backend 연결 다리 역할
             return "redirect:/user/mainAdminPage";
         } // login 예외
 
-        List<Reservation> reservationList = this.reservationService.showAllReservation((String) id));
+        List<Reservation> reservationList = this.reservationService.showAllReservation((String) id);
 
         List<Borrow> borrowList = this.borrowService.getAllBorrowsById((String) id);
         if (borrowList == null) {
