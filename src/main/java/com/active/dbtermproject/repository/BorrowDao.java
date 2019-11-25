@@ -14,9 +14,10 @@ public class BorrowDao { // db접근 함수들
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
     @Autowired
     private CustomerDao customerDao;
+    @Autowired
+    private BookDao bookDao;
 
     public int insert(Borrow borrow) {
         String customerId = borrow.getCustomerId();
@@ -26,6 +27,11 @@ public class BorrowDao { // db접근 함수들
             dueDate = 30;
         else if(customerType.equals("60"))
             dueDate = 60;
+
+        // book 테이블의 is_borrow를 1로 갱신
+        int success = this.bookDao.setBookToBorrowed(borrow.getIsbn());
+        if(success==0)
+            return 0;
 
         return this.jdbcTemplate.update(
                 "INSERT INTO borrow " +
@@ -45,6 +51,20 @@ public class BorrowDao { // db접근 함수들
 
     // start <= x <= end 기간 사이의 Top10 대출 수 회원
     public List<Map<String, Object>> getTop10CustomerByPeriod(Date start, Date end) {
+        List<Map<String, Object>> top10List =
+                this.jdbcTemplate.queryForList(
+                        "SELECT id, password, email, name, phone_number, type, cnt_borrow " +
+                                "FROM customer c, " +
+                                "(SELECT customer_id, count(*) as cnt_borrow " +
+                                "FROM borrow " +
+                                "WHERE borrow_date BETWEEN ? AND ? " +
+                                "GROUP BY customer_id " +
+                                "order by cnt_borrow desc) as b " +
+                                "WHERE id = customer_id"
+                        , start, end
+                );
+
+        // 타입을 "학부생", "대학원생", "교직원"으로 반환
         return this.jdbcTemplate.queryForList(
                 "SELECT id, password, email, name, phone_number, type, cnt_borrow " +
                     "FROM customer c, " +
@@ -80,6 +100,25 @@ public class BorrowDao { // db접근 함수들
     public int deleteReturnedBorrows() {
         return this.jdbcTemplate.update(
                 "DELETE FROM borrow WHERE is_return=1"
+        );
+    }
+
+    // 반납 요청 승인 대기 목록 조회(Borrows)
+    public List<Borrow> getBorrowsThatAwaitingApprovalForReturn() {
+        return this.jdbcTemplate.query(
+                "SELECT borrow_number, isbn, title, customer_id, borrow_date, return_date, is_return " +
+                        "FROM borrow natural join (SELECT isbn FROM book WHERE is_borrow=1) as b " +
+                        "WHERE is_return=1;",
+                (rs, rowNum) ->
+                        Borrow.builder()
+                                .borrowNumber(rs.getInt("borrow_number"))
+                                .isbn(rs.getString("isbn"))
+                                .title(rs.getString("title"))
+                                .customerId(rs.getString("customer_id"))
+                                .borrowDate(rs.getDate("borrow_date"))
+                                .returnDate(rs.getDate("return_date"))
+                                .isReturn(rs.getInt("is_return"))
+                                .build()
         );
     }
 }
