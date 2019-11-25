@@ -23,6 +23,7 @@
         <input type="submit"
                onclick="if (!(confirm('등록 하시겠습니까?'))) return false"
                value="도서등록"/>
+        <input type="button" onclick="gotoMainPage()" value="admin main page"/>
     </div>
 </form:form>
 <script type="text/javascript" src="/resources/js/book-register.js">

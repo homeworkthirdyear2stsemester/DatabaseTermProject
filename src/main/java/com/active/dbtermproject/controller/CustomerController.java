@@ -144,4 +144,13 @@ public class CustomerController { // front와 backend 연결 다리 역할
 
         return "redirect:/user/editProfile";
     }
+
+    @GetMapping("/logoutPage")
+    public String logOut(HttpSession httpSession) {
+        if (httpSession.getAttribute("id") != null) {
+            httpSession.removeAttribute("id");
+        }
+
+        return "redirect:/user/login";
+    }
 }

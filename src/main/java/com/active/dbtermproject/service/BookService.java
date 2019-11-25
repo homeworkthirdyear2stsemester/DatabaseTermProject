@@ -26,11 +26,11 @@ public class BookService { // 예외처리 및 데이터 가공 등등을 해야
     //도서 삭제
 
     /**
-     * @param book : book.isbn
+     * @param isbn : book.isbn
      * @return
      */
-    public int deleteBook(Book book) {
-        return this.bookDao.delete(book);
+    public int deleteBook(String isbn) {
+        return this.bookDao.delete(isbn);
     }
 
     //도서 정보 갱신

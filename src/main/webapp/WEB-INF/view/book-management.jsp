@@ -46,8 +46,9 @@
         </c:forEach>
         </tbody>
     </table>
+    <input type="button" onclick="gotoMainAdminPage()" value="goto main admin page"/>
 </div>
-<%--<script type="text/javascript" src="/resources/js/book-management.js">--%>
-<%--</script>--%>
+<script type="text/javascript" src="/resources/js/book-management.js">
+</script>
 </body>
 </html>
