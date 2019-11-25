@@ -15,10 +15,11 @@
 </div>
 <table>
     <thead>
+    <tr>
 
+    </tr>
     </thead>
     <tbody>
-
     <c:forEach var="borrow" items="${authorizedReturnList}">
         <c:url var="cancealLink" value="/book/comfirmReturnBorrow">
             <c:param name="bookIsbn" value="${borrow.isbn}"/>
@@ -30,7 +31,7 @@
             <td>${borrow.customerId}</td>
             <td>${borrow.borrowDate}</td>
             <td>${borrow.returnDate}</td>
-            <td><a href="${cancealLink}" onclick="cancealReservation()">예약 취소</a></td>
+            <td><a href="${cancealLink}" onclick="completeTask()">예약 취소</a></td>
         </tr>
     </c:forEach>
     </tbody>
