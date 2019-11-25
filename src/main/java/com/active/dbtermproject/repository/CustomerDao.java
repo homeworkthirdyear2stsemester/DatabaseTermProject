@@ -64,9 +64,10 @@ public class CustomerDao { // db접근 함수들
         );
     }
 
-    // 관리자인지 확인하는 함수?
-    public boolean isAdmin(Customer customer) {
-        return false;
+    // 관리자인지 확인하는 함수
+    public boolean isAdmin(String customerId) {
+        String type = getTypeById(customerId);
+        return type.equals("admin");
     }
 
     // id로 customer 검색
