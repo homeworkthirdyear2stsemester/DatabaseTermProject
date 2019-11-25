@@ -43,4 +43,22 @@ public class ReservationDao {
         );
     }
 
+    // "isbn"을 예약한 목록 반환
+    public List<Reservation> getAllReservByIsbn(Reservation reservation) {
+        return this.jdbcTemplate.query(
+                "SELECT * FROM reservation WHERE isbn=?",
+                (rs, rowNum) -> Reservation.builder()
+                        .customerId(rs.getString("customer_id"))
+                        .isbn(rs.getString("isbn"))
+                        .reservDate(rs.getDate("reserv_date"))
+                        .build(),
+                reservation.getIsbn());
+    }
+
+    //위에서 작성한 함수를 호출해 isbn이 예약한 리스트 가져와 사이즈 리턴
+    public int howManyPerIsbn(Reservation reservation){
+        List<Reservation> listOfReservation=getAllReservByIsbn(reservation);
+        return listOfReservation.size();
+    }
+
 }
