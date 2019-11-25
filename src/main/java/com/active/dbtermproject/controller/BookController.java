@@ -23,6 +23,11 @@ public class BookController { // front와 backend 연결 다리 역할
         return "search";
     }
 
+    @GetMapping("/registerError")
+    public String registerError() {
+        return "error/register-error-handler";
+    }
+
     @GetMapping("/bookSearch")
     public String bookSearch(@RequestParam("type") String type
             , @RequestParam("data") String data
@@ -46,7 +51,18 @@ public class BookController { // front와 backend 연결 다리 역할
     }
 
     @GetMapping("/bookManagementPage")
-    public String bookManagement() {
+    public String bookManagement(Model model) {
+        model.addAttribute("book", new Book());
         return "book-management";
+    }
+
+    @GetMapping("/registerBook")
+    public String registerBook(@ModelAttribute("book") Book book) {
+        int result = this.bookService.insertBook(book);
+        if (result != 0) {
+            return "redirect:/book/bookManagementPage";
+        }
+
+        return "redirect:/book/registerError";
     }
 }
