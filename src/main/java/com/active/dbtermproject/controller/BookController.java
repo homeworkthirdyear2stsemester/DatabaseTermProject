@@ -12,8 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/book")
@@ -174,5 +177,24 @@ public class BookController { // front와 backend 연결 다리 역할
         }
 
         return "redirect:/book/authorizeReturn";
+    }
+
+    @GetMapping("/topTenPage")
+    public String topTenPage(Model model) {
+        Date endDate = new Date(new java.util.Date().getTime());
+        Date beforeDate = this.calculateDate(endDate);
+        List<Map<String, Object>> topTenData = this.borrowService.getTop10CustomerByPeriod(beforeDate, endDate);
+        model.addAttribute("topTenData", topTenData);
+
+        return "top-ten";
+    }
+
+    private Date calculateDate(Date nowDate) {
+        int days = 30;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(nowDate);
+        calendar.add(calendar.DATE, -days);
+
+        return new Date(calendar.getTimeInMillis());
     }
 }

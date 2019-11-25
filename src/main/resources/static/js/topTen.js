@@ -1,6 +1,7 @@
 function refresh() {
-    location.href = ""; // 위치 지정
+    location.href = "/book/topTenPage"; // 위치 지정
 }
-function completeTask() {
-    location.href = ""; // 위치 지정
+
+function gotoAdminMainPage() {
+    location.href = "/user/mainAdminPage"; // 위치 지정
 }
