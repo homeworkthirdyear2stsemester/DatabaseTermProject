@@ -30,8 +30,11 @@ public class CustomerService { // 예외처리 및 데이터 가공 등등을 �
     //               id 필요
     //  - newInfo : 변경 후의 회원 정보
     //               password, email, name, phoneNumber, type 필요
-    public int updateService(Customer customer, Customer newInfo) {
-        return this.customerDao.update(customer, newInfo);
+    public int updateService(String customerId, Customer newInfo) {
+        if (customerId == null) {
+            throw new NullPointerException();
+        }
+        return this.customerDao.update(customerId, newInfo);
     }
 
     // id에 해당하는 customer 객체를 반환하는 함수

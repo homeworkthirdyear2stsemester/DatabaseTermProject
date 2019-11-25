@@ -40,7 +40,7 @@ public class CustomerDao { // db접근 함수들
     }
 
     // 회원 정보 수정
-    public int update(Customer customer, Customer newInfo) {
+    public int update(String customerId, Customer newInfo) {
         return this.jdbcTemplate.update(
                 "update customer SET " +
                         "password=?, " +
@@ -54,7 +54,7 @@ public class CustomerDao { // db접근 함수들
                 newInfo.getName(),
                 newInfo.getPhoneNumber(),
                 newInfo.getType(),
-                customer.getId()
+                customerId
         );
     }
 

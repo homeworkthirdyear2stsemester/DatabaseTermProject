@@ -51,7 +51,7 @@ public class CustomerController { // front와 backend 연결 다리 역할
         return "edit-profile";
     }
 
-    @GetMapping("/mainUserPage")
+    @GetMapping("/mainUserPage") // 수정해야함
     public String mainUserPage(Model model) {
         Random random = new Random(200);
         List<Reservation> reservationList = new ArrayList<>();
@@ -117,20 +117,26 @@ public class CustomerController { // front와 backend 연결 다리 역할
 
     @PostMapping("/changeCustomerData")
     public String changeCustomerData(@ModelAttribute("customer") Customer customer, HttpSession httpSession) {
+
+        Object id = httpSession.getAttribute("id");
+        if (id == null) {
+            return "redirect:/user/loginError"; // login 안되어있을 경우
+        }
+
         try {
-            // 데이터 베이스에서 데이터 저장 하는 코드 작성
-            //예외 db 접근 코드 작성
+            int result = this.customerService.updateService((String) id, customer);
+            if (result != 0) {
+                if (id.equals("Admin")) {
+                    return "redirect:/user/mainAdminPage"; //admin 계정
+                }
+                httpSession.removeAttribute("id"); // session 제거
+
+                return "redirect:/user/login"; // 성공
+            }
         } catch (Exception e) {
             return "redirect:/user/edit-profile";
         }
-        String id = (String) httpSession.getAttribute("id");
-        if (id == null) {
-            return "redirect:/user/loginError"; // login 안되어있을 경우
-        } else if (id.equals("Admin")) {
-            return "redirect:/user/mainAdminPage"; //admin 계정
-        }
-        httpSession.removeAttribute("id"); // session 제거
 
-        return "redirect:/user/login"; // 성공
+        return "redirect:/user/editProfile";
     }
 }
