@@ -25,7 +25,7 @@
             <c:url var="deleteLink" value="/book/delete">
                 <c:param name="bookIsbn" value="${book.isbn}"/>
             </c:url>
-            <c:url var="updateLink" value="/book/update">
+            <c:url var="updateLink" value="/book/editBook">
                 <c:param name="bookIsbn" value="${book.isbn}"/>
             </c:url>
             <tr>
@@ -46,8 +46,9 @@
         </c:forEach>
         </tbody>
     </table>
+    <input type="button" onclick="gotoMainAdminPage()" value="goto main admin page"/>
 </div>
-<%--<script type="text/javascript" src="/resources/js/book-management.js">--%>
-<%--</script>--%>
+<script type="text/javascript" src="/resources/js/book-management.js">
+</script>
 </body>
 </html>

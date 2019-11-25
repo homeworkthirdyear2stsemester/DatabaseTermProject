@@ -12,3 +12,8 @@ function registerErrorHandelr() {
     alert("register fail");
     location.href = "/book/bookManagementPage";
 }
+
+function deleteBookErrorHandelr() {
+    alert("delete fail please do again later");
+    location.href = "/book/bookMangementPage";
+}

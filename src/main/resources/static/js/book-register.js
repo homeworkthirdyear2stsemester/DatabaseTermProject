@@ -1,6 +1,6 @@
-function editBook(){
-    location.href="/book/editBook"
-}
-function deleteBook(){
-    location.href="/user/main-admin"
+function gotoMainPage() {
+    if (!(confirm("도서 등록을 마치겠습니까?"))) {
+        return false;
+    }
+    location.href = "/user/mainAdminPage";
 }

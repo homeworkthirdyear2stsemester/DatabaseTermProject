@@ -75,12 +75,11 @@ public class BookController { // front와 backend 연결 다리 역할
     public String bookManagementPage(Model model, HttpSession httpSession) {
         Object id = httpSession.getAttribute("id");
         if (id == null || !id.equals("Admin")) {
-            return "redirect:user/loginError";
+            return "redirect:../user/loginError";
         }
-        List<Book> books = new ArrayList<>();
-        // db연결 코드 작성하기
-
+        List<Book> books = this.bookService.showAllBooks();
         model.addAttribute("books", books);
+
         return "book-management";
     }
 
@@ -95,9 +94,33 @@ public class BookController { // front와 backend 연결 다리 역할
     }
 
     @GetMapping("/editBook")
-    public String editBook(@ModelAttribute("book") Book book) {
+    public String editBook(@ModelAttribute("book") Book book, HttpSession httpSession) {
+        Object idData = httpSession.getAttribute("id");
+
+        if (idData == null || !(idData).equals("Admin")) {
+            return "redirect:user/loginError"; // login 다시 해야함
+        }
+
+        int result = this.bookService.updateBook(book);
+        if (result == 0) {
+            return "redirect:/book/editBookPage"; // 실패
+        }
+
         return "redirect:/book/bookMangementPage"; // 성공
-//        return "redirect:/book/editBookPage"; // 실패
-//        return "redirect:user/loginError"; // login 다시 해야함
+    }
+
+    @GetMapping("/deleteError")
+    public String deleteError() {
+        return "error/delete-book-error-handler";
+    }
+
+    @GetMapping("/delete")
+    public String deleteBookData(@RequestParam("bookIsbn") String isbn) {
+        int result = this.bookService.deleteBook(isbn);
+        if (result == 0) {
+            return "redirect:/book/deleteError";
+        }
+
+        return "redirect:/book/bookMangementPage";
     }
 }

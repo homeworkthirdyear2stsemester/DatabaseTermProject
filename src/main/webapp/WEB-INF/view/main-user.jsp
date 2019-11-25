@@ -63,6 +63,8 @@
         </c:forEach>
         </tbody>
     </table>
+
+    <input type="button" onclick="logout()" value="로그아웃"/>
 </div>
 <script type="text/javascript" src="/resources/js/main-user.js">
 </script>

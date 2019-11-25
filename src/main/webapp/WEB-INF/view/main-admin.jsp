@@ -14,6 +14,7 @@
         <td>
             <input type="button" onclick="gotoBookRegister()" value="도서등록"/>
             <input type="button" onclick="gotoBookMangement()" value="도서관리"/>
+            <input type="button" onclick="logout()" value="로그아웃"/>
         </td>
     </tr>
 </table>

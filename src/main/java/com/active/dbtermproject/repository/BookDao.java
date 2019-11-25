@@ -24,10 +24,10 @@ public class BookDao { // db접근 함수들
     }
 
     // 도서 삭제
-    public int delete(Book book) {
+    public int delete(String bookIsbn) {
         return this.jdbcTemplate.update(
                 "delete from teamproject.book where isbn=?",
-                book.getIsbn()
+                bookIsbn
         );
     }
 
