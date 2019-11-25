@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 
@@ -20,12 +21,19 @@
         <td>borrowCount</td>
         </thead>
         <tbody>
-        <!--가장 많이 빌린 10명 출력-->
+        <c:forEach var="map" items="${topTenData}">
+            <tr>
+                <td>${map.id}</td>
+                <td>${map.name}</td>
+                <td>${map.type}</td>
+                <td>${map.cnt_borrow}</td>
+            </tr>
+        </c:forEach>
         </tbody>
     </table>
 </div>
-    <input type="button" onclick="refresh()" value="새로고침">
-    <input type="button" onclick="completeTask()" value="돌아가기">
+<input type="button" onclick="refresh()" value="새로고침">
+<input type="button" onclick="gotoAdminMainPage()" value="돌아가기">
 </body>
 <script type="text/javascript" src="/resources/js/topTen.js">
 </script>

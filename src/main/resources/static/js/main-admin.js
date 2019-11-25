@@ -25,3 +25,10 @@ function authorizeReturn() {
     }
     location.href = "/book/authorizeReturn";// 위치 지정
 }
+
+function gotoTopTenPage() {
+    if (!(confirm("top 10 목록을 조회 하시겠습니까?"))) {
+        return false;
+    }
+    location.href = "/book/topTenPage";
+}
