@@ -32,10 +32,10 @@ public class CustomerDao { // db접근 함수들
     }
 
     // 회원 탈퇴
-    public int delete(Customer customer) {
+    public int delete(String customerId) {
         return this.jdbcTemplate.update(
                 "delete from customer where id=?",
-                customer.getId()
+                customerId
         );
     }
 
