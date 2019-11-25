@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<form:form action="loginCheck" modelAttribute="customer" method="POST">
+<form:form action="changeCustomerData" modelAttribute="customer" method="POST">
     <table border="1" align="center" width="500">
         <tr>
             <th colspan="2">프로필 수정하기</th>
