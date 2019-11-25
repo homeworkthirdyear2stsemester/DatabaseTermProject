@@ -89,5 +89,20 @@ public class BookDao { // db접근 함수들
                 book.getIsbn()
         );
     }
+
+    public List<Book> showAll(){   return jdbcTemplate.query(
+            "select * from teamproject.book",
+            (rs, rowNum) ->
+                    Book.builder()
+                            .isbn(rs.getString("isbn"))
+                            .title(rs.getString("title"))
+                            .author(rs.getString("author"))
+                            .publisher(rs.getString("publisher"))
+                            .isBorrow(rs.getInt("is_borrow"))
+                            .customerId(rs.getString("customer_id"))
+                            .build()
+    );
+    }
+
 }
 

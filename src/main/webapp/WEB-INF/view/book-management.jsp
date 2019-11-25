@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -14,27 +13,41 @@
     <span>도서관리를 담당하는 페이지입니다.</span>
 </div>
 
-<form:form action="registerBook" modelAttribute="book" method="POST">
-    <div class="ex1">
-        <span>도서등록하기</span><br>
-        도서 isbn 입력 :<form:input path="isbn"/><br>
-        책제목 입력 :<form:input path="title"/><br>
-        작가 입력 : <form:input path="author"/><br>
-        출판사 입력 :<form:input path="publisher"/><br>
-        <input type="submit"
-               onclick="if (!(confirm('등록 하시겠습니까?'))) return false"
-               value="도서등록">
-    </div>
-</form:form>
 <div class="ex1">
-    <span>도서삭제하기</span>
-    도서 isbn 입력 : <input type="text" name="isbn"><input type="button" onclick="deleteBook()" name="delete" value="도서삭제">
+    <table>
+        <thead>
+        <tr>
+            <%-- <th></th>  작성하세요--%>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="book" items="${books}">
+            <c:url var="deleteLink" value="/book/delete">
+                <c:param name="bookIsbn" value="${book.isbn}"/>
+            </c:url>
+            <c:url var="updateLink" value="/book/update">
+                <c:param name="bookIsbn" value="${book.isbn}"/>
+            </c:url>
+            <tr>
+                <td>${book.isbn}</td>
+                <td>${book.title}</td>
+                <td> ${book.author} </td>
+                <td>${book.publisher}</td>
+                <td> ${book.isBorrow}</td>
+                <td>${book.customerId}</td>
+                <td>
+                    <a href="${deleteLink}"
+                       onclick="if (!(confirm('책을 목록에서 삭제 하시겠습니까?'))) return false">제거</a>
+                    |
+                    <a href="${updateLink}"
+                       onclick="if (!(confirm('책 정보 수정 화면으로 넘어가시겠습니까?'))) return false">수정</a>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
 </div>
-<div class="ex1">
-    <span>도서수정하기</span>
-    도서 isbn 입력 : <input type="text" name="isbn"><input type="button" onclick="editBook()" name="edit" value="도서수정">
-</div>
-<script type="text/javascript" src="/resources/js/book-management.js">
-</script>
+<%--<script type="text/javascript" src="/resources/js/book-management.js">--%>
+<%--</script>--%>
 </body>
 </html>

@@ -38,6 +38,11 @@ public class CustomerController { // front와 backend 연결 다리 역할
         return "error/login-error-handler";
     }
 
+    @GetMapping("/mainAdminPage")
+    public String mainAdminPage() {
+        return "main-admin";
+    }
+
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("customer", new Customer());

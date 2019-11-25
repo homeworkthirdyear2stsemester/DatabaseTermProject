@@ -5,6 +5,8 @@ import com.active.dbtermproject.repository.ReservationDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ReservationService {
     @Autowired
@@ -25,4 +27,12 @@ public class ReservationService {
      * @return
      */
     public int cancleReservation(Reservation reservation) {return this.reservationDao.delete(reservation);}
+
+    //각 회원당 예약목록 조회
+    /**
+     *
+     * @param reservation : user_id
+     * @return
+     */
+    public List<Reservation> showAllReservation(Reservation reservation) {return this.reservationDao.findAll(reservation);}
 }
