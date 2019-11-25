@@ -1,6 +1,6 @@
 function cancelEditing(){
-    location.href = "/user/main-admin"
+    location.href = "/user/main-admin";
 }
 function deleteProfile(){
-    location.href = "/user/login"
+    location.href = "/user/deleteUserData";
 }

@@ -27,7 +27,7 @@
         </tr>
         <tr>
             <td>사용자 암호</td>
-            <td><form:input path="password"/></td>
+            <td><form:password path="password"/></td>
         </tr>
         <tr>
             <th colspan="2">
