@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>BookFLIX 로그인</title>
+    <title>도서 검색</title>
     <link rel="stylesheet" href="/resources/css/search.css">
 </head>
 <body>
@@ -19,7 +19,10 @@
             <input type="text" name="data"/>
             <input type="submit" value="검색"/>
         </div>
+        <input type="button" onclick="goToUserMainPage()" value="뒤로가기"/>
     </div>
 </form>
+<script type="text/javascript" src="/resources/js/search.js">
+</script>
 </body>
 </html>

@@ -3,7 +3,10 @@ function goToEditProfilePage() {
 }
 
 function goToSearchBookPage() {
-    location.href = "/user/login";// 위치 지정
+    if (!(confirm("도서검색을 하시겠습니까?"))) {
+        return false;
+    }
+    location.href = "/book/bookSearchPage";
 }
 
 function logout() {

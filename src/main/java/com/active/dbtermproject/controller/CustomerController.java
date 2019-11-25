@@ -3,6 +3,7 @@ package com.active.dbtermproject.controller;
 import com.active.dbtermproject.domain.Borrow;
 import com.active.dbtermproject.domain.Customer;
 import com.active.dbtermproject.domain.Reservation;
+import com.active.dbtermproject.service.BorrowService;
 import com.active.dbtermproject.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,8 @@ public class CustomerController { // front와 backend 연결 다리 역할
 
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private BorrowService borrowService;
 
     @GetMapping("/deleteError")
     public String errorHandler() {
@@ -57,7 +60,14 @@ public class CustomerController { // front와 backend 연결 다리 역할
     }
 
     @GetMapping("/mainUserPage") // 수정해야함
-    public String mainUserPage(Model model) {
+    public String mainUserPage(Model model, HttpSession httpSession) {
+        Object id = httpSession.getAttribute("id");
+        if (id == null) {
+            if (id.equals("Admin")) {
+                return "redirect:/user/mainAdminPage";
+            }
+            return "redirect:/user/login";
+        }
         Random random = new Random(200);
         List<Reservation> reservationList = new ArrayList<>();
         for (int index = 0; index < 5; index++) {
@@ -67,15 +77,16 @@ public class CustomerController { // front와 backend 연결 다리 역할
                     .reservDate(new Date(index))
                     .build());
         }
-        List<Borrow> borrowList = new ArrayList<>();
-        for (int index = 0; index < 5; index++) {
-            borrowList.add(Borrow.builder()
-                    .isbn(Integer.toString(random.nextInt()))
-                    .title("12312")
-                    .borrowDate(new Date(123))
-                    .returnDate(new Date(123))
-                    .build());
+
+        List<Borrow> borrowList = this.borrowService.getAllBorrowsById((String) id);
+        if (borrowList == null) {
+            borrowList = new ArrayList<>();
         }
+
+        if (reservationList == null) {
+            reservationList = new ArrayList<>();
+        }
+
         model.addAttribute("borrows", borrowList);
         model.addAttribute("reservations", reservationList);
 
