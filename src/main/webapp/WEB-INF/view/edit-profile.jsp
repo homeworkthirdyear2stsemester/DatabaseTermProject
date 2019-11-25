@@ -6,11 +6,10 @@
 <head>
     <meta charset="UTF-8">
     <title>BookFLIX 회원정보수정</title>
-    <link rel="stylesheet" href="/resources/css/edit-profile.css">
 </head>
 <body>
 
-<form:form action="loginCheck" modelAttribute="customer" method="POST">
+<form:form action="changeCustomerData" modelAttribute="customer" method="POST">
     <table border="1" align="center" width="500">
         <tr>
             <th colspan="2">프로필 수정하기</th>

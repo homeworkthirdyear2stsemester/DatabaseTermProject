@@ -20,8 +20,8 @@ public class CustomerService { // 예외처리 및 데이터 가공 등등을 �
 
     // 회원 삭제 : delete Customer
     // id 필요
-    public int deleteService(Customer customer) {
-        return this.customerDao.delete(customer);
+    public int deleteService(String customerId) {
+        return this.customerDao.delete(customerId);
     }
 
     // 회원 정보 수정 : update Customer

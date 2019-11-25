@@ -11,11 +11,11 @@
 </head>
 <body>
 
-<form:form action="search" modelAttribute="customer" method="POST">
+<form:form action="search" modelAttribute="book" method="POST">
     <div class="ex1">
         <div><span>검색 설정</span><br>
-            <input type="radio" name="type" value="isbn" checked>ISBN
-            <input type="radio" name="type" value="도서 제목">도서 제목
+            <form:radiobutton path="type" value="0"/>ISBN
+            <form:radiobutton path="type" value="1"/>도서 제목
         </div>
 
         <div><span>도서명 혹은 ISBN 입력</span><br>

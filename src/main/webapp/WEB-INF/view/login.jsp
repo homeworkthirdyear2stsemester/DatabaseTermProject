@@ -23,11 +23,11 @@
         </tr>
         <tr>
             <td>사용자 아이디</td>
-            <td><input type="text" name="id"></td>
+            <td><form:input path="id"/></td>
         </tr>
         <tr>
             <td>사용자 암호</td>
-            <td><input type="password" name="password"></td>
+            <td><form:password path="password"/></td>
         </tr>
         <tr>
             <th colspan="2">
