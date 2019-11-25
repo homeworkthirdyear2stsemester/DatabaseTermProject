@@ -150,9 +150,12 @@ public class BookController { // front와 backend 연결 다리 역할
         return "redirect:/user/mainUserPage";
     }
 
-    @PostMapping("/authorizeReturn")
+    @GetMapping("/authorizeReturn")
     public String authorizeReturnPage(Model model) {
         List<Borrow> authorizedReturnList = new ArrayList<>();
+        /*
+         * add code about borrow list
+         */
         model.addAttribute("authorizedReturnList", authorizedReturnList);
 
         return "authorizeReturn";

@@ -15,6 +15,7 @@
             <input type="button" onclick="gotoBookRegister()" value="도서등록"/>
             <input type="button" onclick="gotoBookMangement()" value="도서관리"/>
             <input type="button" onclick="logout()" value="로그아웃"/>
+            <input type="button" onclick="authorizeReturn()" value="반납승인대기 목록"/>
         </td>
     </tr>
 </table>
