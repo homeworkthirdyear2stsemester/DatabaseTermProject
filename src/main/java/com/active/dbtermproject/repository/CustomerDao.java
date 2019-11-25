@@ -14,11 +14,17 @@ public class CustomerDao { // db접근 함수들
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public List<String> getAllUserNames() {
-        List<String> userNameList = new ArrayList<>();
-        userNameList.addAll(this.jdbcTemplate.queryForList("select name from user", String.class));
-
-        return userNameList;
+    // 모든 Customers 검색
+    public List<Customer> getAllCustomers() {
+        return this.jdbcTemplate.query(
+                "SELECT * FROM customer",
+                (rs, rowNum) -> Customer.builder()
+                        .id(rs.getString("id"))
+                        .password(rs.getString("password"))
+                        .email(rs.getString("email"))
+                        .name(rs.getString("name"))
+                        .phoneNumber(rs.getString("phone_number"))
+                        .type(rs.getString("type")).build());
     }
 
     // 회원 가입
@@ -63,6 +69,7 @@ public class CustomerDao { // db접근 함수들
         return false;
     }
 
+    // id로 customer 검색
     public Customer getCustomerById(String customerId) {
         return this.jdbcTemplate.queryForObject(
                 "select * from customer c where c.id=?",
@@ -75,6 +82,7 @@ public class CustomerDao { // db접근 함수들
                         .type(rs.getString("type")).build(), customerId);
     }
 
+    // id로 해당 customer의 type 검색
     public String getTypeById(String customerId) {
         return jdbcTemplate.queryForObject(
                 "select type from customer c where c.id=?",
