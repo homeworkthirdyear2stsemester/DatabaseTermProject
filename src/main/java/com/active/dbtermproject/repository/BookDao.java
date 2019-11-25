@@ -12,11 +12,6 @@ import java.util.Optional;
 @Repository
 public class BookDao { // db접근 함수들
 
-//        return this.jdbcTemplate.update(
-//                "insert into user(id, name) values(?, ?)",
-//                new Object[]{user.getId(), user.getName()}
-//        );
-
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -77,7 +72,7 @@ public class BookDao { // db접근 함수들
         );
     }
 
-    //isbn으로 확인
+    //isbn으로 대출가능 여부 확인
     public int checkIfBorrowed(Book book){
         Optional<Book> book1 = this.searchByIsbn(book);//입력받은 isbn으로 책 정보 가져옴
         if(book1.get().getIsBorrow()==0){//만약 누가 빌려가지 않았다면
@@ -85,6 +80,14 @@ public class BookDao { // db접근 함수들
         }else{//누가 빌려갔다면
             return 0;//0리턴
         }
+    }
+
+    //입력받은 isbn으로 is_borrow=0 갱신
+    public int allowReturn(Book book){
+        return this.jdbcTemplate.update(
+                "update teamproject.book set is_borrow=0 where book.isbn=?;",
+                 book.getIsbn()
+        );
     }
 
 }
