@@ -8,17 +8,16 @@
     <link rel="stylesheet" href="/resources/css/main-admin.css">
 </head>
 <body>
-<form action='main.jsp' method="post">
-    <td><span>BookFLIX 관리자님 환영합니다.</span></td>
-    <table border="1" align="center" width="260">
-        <tr>
-            <td>
-                <input type="submit" name="bookManagement" value="책관리">
-                <input type="button" name="returnAuthorize" value="반납승인">
-                <input type="button" name="topTen" value="상위텐">
-            </td>
-        </tr>
-    </table>
-</form>
+<td><span>BookFLIX 관리자님 환영합니다.</span></td>
+<table border="1" align="center" width="260">
+    <tr>
+        <td>
+            <input type="button" onclick="gotoBookRegister()" value="도서등록"/>
+            <input type="button" onclick="gotoBookMangement()" value="도서관리"/>
+        </td>
+    </tr>
+</table>
+<script type="text/javascript" src="/resources/js/main-admin.js">
+</script>
 </body>
 </html>
