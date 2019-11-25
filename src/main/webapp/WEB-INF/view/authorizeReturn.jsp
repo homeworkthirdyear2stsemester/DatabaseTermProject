@@ -31,7 +31,7 @@
             <td>${borrow.customerId}</td>
             <td>${borrow.borrowDate}</td>
             <td>${borrow.returnDate}</td>
-            <td><a href="${cancealLink}" onclick="completeTask()">예약 취소</a></td>
+            <td><a href="${cancealLink}" onclick="completeTask()">반납 승인</a></td>
         </tr>
     </c:forEach>
     </tbody>

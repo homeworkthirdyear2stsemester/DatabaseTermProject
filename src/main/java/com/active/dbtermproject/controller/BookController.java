@@ -155,10 +155,7 @@ public class BookController { // front와 backend 연결 다리 역할
 
     @GetMapping("/authorizeReturn")
     public String authorizeReturnPage(Model model) {
-        List<Borrow> authorizedReturnList = new ArrayList<>();
-        /*
-         * add code about borrow list
-         */
+        List<Borrow> authorizedReturnList = this.borrowService.getBorrowsThatAwaitingApprovalForReturn();
         model.addAttribute("authorizedReturnList", authorizedReturnList);
 
         return "authorizeReturn";
@@ -169,7 +166,7 @@ public class BookController { // front와 backend 연결 다리 역할
         return "error/return-book-error-handler";
     }
 
-    @PostMapping("/comfirmReturnBorrow")
+    @GetMapping("/comfirmReturnBorrow")
     public String comfirmReturnBorrow(@RequestParam("bookIsbn") String isbn) {
         int result = this.bookService.allowToReturnBook(isbn);
         if (result == 0) {
