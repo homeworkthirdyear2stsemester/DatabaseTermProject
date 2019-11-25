@@ -19,4 +19,12 @@ public class ReservationDao {
         );
     }
 
+    // 예약 삭제
+    public int delete(Reservation reservation) {
+        return this.jdbcTemplate.update(
+                "delete from teamproject.reservation where isbn=?",
+                reservation.getIsbn()
+        );
+    }
+
 }
