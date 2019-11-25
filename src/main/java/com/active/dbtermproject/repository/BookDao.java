@@ -39,7 +39,7 @@ public class BookDao { // db접근 함수들
         );
     }
 
-    // 도서 ISBN으로 검색
+    // 도서 ISBN으로 검색(한권만 리턴)
     public Optional<Book> searchByIsbn(Book book) {
         return this.jdbcTemplate.queryForObject(
                 "select * from teamproject.book where isbn=?",
@@ -56,7 +56,7 @@ public class BookDao { // db접근 함수들
         );
     }
 
-    // 도서 TITLE로 검색
+    // 도서 TITLE로 검색(여러개 리턴 가능)
     public List<Book> searchByTitle(Book book) {
         return this.jdbcTemplate.query(
                 "select * from book where title="+"'"+book.getTitle()+"'",//sql문
