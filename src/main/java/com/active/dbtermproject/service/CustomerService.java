@@ -48,7 +48,16 @@ public class CustomerService { // 예외처리 및 데이터 가공 등등을 �
      * @return : 모든 Customer들 List
      */
     public List<Customer> getAllCustomers() {
-        // 여기부터 작성 해야해
         return customerDao.getAllCustomers();
+    }
+
+    // 관리자인지 확인하는 함수
+    /**
+     *
+     * @param customerId : 확인할 id
+     * @return : 관리자(type="admin")라면 true
+     */
+    public boolean isAdmin(String customerId) {
+        return customerDao.isAdmin(customerId);
     }
 }

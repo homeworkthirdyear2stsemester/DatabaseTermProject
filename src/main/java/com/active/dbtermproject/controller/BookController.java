@@ -23,6 +23,11 @@ public class BookController { // front와 backend 연결 다리 역할
         return "search";
     }
 
+    @GetMapping("/registerError")
+    public String registerError() {
+        return "error/register-error-handler";
+    }
+
     @GetMapping("/bookSearch")
     public String bookSearch(@RequestParam("type") String type
             , @RequestParam("data") String data
@@ -45,8 +50,54 @@ public class BookController { // front와 backend 연결 다리 역할
         return "search-result";
     }
 
-    @GetMapping("/bookManagementPage")
-    public String bookManagement() {
+    @GetMapping("/bookRegisterPage")
+    public String bookManagement(Model model) {
+        model.addAttribute("book", new Book());
+        return "book-register";
+    }
+
+    @GetMapping("/registerBook") //admin 계정만
+    public String registerBook(@ModelAttribute("book") Book book, HttpSession httpSession) {
+        Object id = httpSession.getAttribute("id");
+        if (id == null || !id.equals("Admin")) {
+            return "redirect:user/loginError";
+        }
+
+        int result = this.bookService.insertBook(book);
+        if (result != 0) {
+            return "redirect:/book/bookRegisterPage";
+        }
+
+        return "redirect:/book/registerError";
+    }
+
+    @GetMapping("/bookMangementPage") //admin 계정만
+    public String bookManagementPage(Model model, HttpSession httpSession) {
+        Object id = httpSession.getAttribute("id");
+        if (id == null || !id.equals("Admin")) {
+            return "redirect:user/loginError";
+        }
+        List<Book> books = new ArrayList<>();
+        // db연결 코드 작성하기
+
+        model.addAttribute("books", books);
         return "book-management";
+    }
+
+    // Book 정소 수정 페이지
+    @GetMapping("/editBookPage")
+    public String editBookPage(@RequestParam("isbn") String isbn, Model model) {
+        Book bookData = new Book();
+        bookData.setIsbn(isbn);
+        model.addAttribute("book", bookData);
+
+        return "edit-book";
+    }
+
+    @GetMapping("/editBook")
+    public String editBook(@ModelAttribute("book") Book book) {
+        return "redirect:/book/bookMangementPage"; // 성공
+//        return "redirect:/book/editBookPage"; // 실패
+//        return "redirect:user/loginError"; // login 다시 해야함
     }
 }
