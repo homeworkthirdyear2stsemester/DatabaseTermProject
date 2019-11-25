@@ -75,8 +75,16 @@ public class BookService { // 예외처리 및 데이터 가공 등등을 해야
         return this.bookDao.checkIfBorrowed(book);
     }
 
-    //반납 승인(DB Book.is_borrow 0으로 갱신)
+    // isbn에 해당하는 책을 "빌림" 싱태로 바꿈. (is_borrow를 1로 갱신)
+    /**
+     * @param isbn : "빌림" 상태로 바꿀 isbn
+     * @return : 성공하면 1, 실패하면 0
+     */
+    public int setBookToBorrowed(String isbn) {
+        return this.bookDao.setBookToBorrowed(isbn);
+    }
 
+    //반납 승인(DB Book.is_borrow 0으로 갱신)
     /**
      * @param isbn : book.isbn
      * @return

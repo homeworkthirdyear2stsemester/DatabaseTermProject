@@ -18,7 +18,7 @@ public class BorrowService { // 예외처리 및 데이터 가공 등등을 해�
     /**
      *
      * @param borrow : borrow.isbn, borrow.title, borrow.customerId
-     * @return : 성공시 1
+     * @return : 성공시 1, book 테이블의 is_borrow를 1로 갱신
      */
     public int insertBorrow(Borrow borrow) {
         return this.borrowDao.insert(borrow);
@@ -62,5 +62,15 @@ public class BorrowService { // 예외처리 및 데이터 가공 등등을 해�
      */
     public int deleteReturnedBorrows() {
         return borrowDao.deleteReturnedBorrows();
+    }
+
+
+    // 반납 승인 대기 목록 조회(Borrows)
+    /**
+     *
+     * @return : 반납 승인 대기중인 Borrows 리스트
+     */
+    public List<Borrow> getBorrowsThatAwaitingApprovalForReturn() {
+        return borrowDao.getBorrowsThatAwaitingApprovalForReturn();
     }
 }

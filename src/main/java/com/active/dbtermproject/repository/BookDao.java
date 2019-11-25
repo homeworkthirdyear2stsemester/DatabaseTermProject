@@ -82,6 +82,14 @@ public class BookDao { // db접근 함수들
         }
     }
 
+    //입력받은 isbn으로 is_borrow=1 갱신
+    public int setBookToBorrowed(String isbn) {
+        return this.jdbcTemplate.update(
+                "update teamproject.book set is_borrow=1 where book.isbn=?;",
+                isbn
+        );
+    }
+
     //입력받은 isbn으로 is_borrow=0 갱신
     public int allowReturn(String isbn) {
         return this.jdbcTemplate.update(
