@@ -91,6 +91,6 @@ public class BookService { // 예외처리 및 데이터 가공 등등을 해야
      * @return: 전제 도서 목록 리턴
      */
     public List<Book> showAllBooks() {
-        return this.bookDao.showAll();
+        return this.bookDao.getAllBooks();
     }
 }
