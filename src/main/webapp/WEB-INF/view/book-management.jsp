@@ -25,7 +25,7 @@
             <c:url var="deleteLink" value="/book/delete">
                 <c:param name="bookIsbn" value="${book.isbn}"/>
             </c:url>
-            <c:url var="updateLink" value="/book/editBook">
+            <c:url var="updateLink" value="/book/editBookPage">
                 <c:param name="bookIsbn" value="${book.isbn}"/>
             </c:url>
             <tr>

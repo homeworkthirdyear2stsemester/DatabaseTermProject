@@ -24,6 +24,7 @@
         작가 입력 : <form:input path="author"/><br>
         출판사 입력 :<form:input path="publisher"/><br>
         <input type="submit" onclick="editBook()" name="edit" value="도서수정">
+        <input type="button" onclick="cancealUpdateBook()" value="취소"/>
     </form:form>
 </div>
 <script type="text/javascript" src="/resources/js/edit-book.js">

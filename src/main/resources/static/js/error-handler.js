@@ -17,3 +17,8 @@ function deleteBookErrorHandelr() {
     alert("delete fail please do again later");
     location.href = "/book/bookMangementPage";
 }
+
+function deleteReservationErrorHander() {
+    alert("wrong reservation data");
+    location.href = "/user/mainUserPage";
+}

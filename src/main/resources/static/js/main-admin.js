@@ -18,3 +18,9 @@ function logout() {
     }
     location.href = "/user/logoutPage";// 위치 지정
 }
+
+function cancealReservation() {
+    if (!(confirm('예약을 취소 하시겠습니까?'))) {
+        return false
+    }
+}

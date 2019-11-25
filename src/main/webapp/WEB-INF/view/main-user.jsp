@@ -56,9 +56,13 @@
         </thead>
         <tbody>
         <c:forEach var="reservation" items="${reservations}">
+            <c:url var="cancealLink" value="/book/cancealReservationPage">
+                <c:param name="bookIsbn" value="${reservation.isbn}"/>
+            </c:url>
             <tr>
                 <td>${reservation.isbn}</td>
                 <td>${reservation.reservDate}</td>
+                <td><a href="${cancealLink}" onclick="cancealReservation()">예약 취소</a></td>
             </tr>
         </c:forEach>
         </tbody>

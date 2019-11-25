@@ -1,3 +1,3 @@
-function goToSearchPage() {
-    location.href = "/book/bookSearchPage";
+function goToUserMainPage() {
+    location.href = "/user/mainUserPage";
 }

@@ -1,7 +1,9 @@
 package com.active.dbtermproject.controller;
 
 import com.active.dbtermproject.domain.Book;
+import com.active.dbtermproject.domain.Reservation;
 import com.active.dbtermproject.service.BookService;
+import com.active.dbtermproject.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,8 @@ public class BookController { // front와 backend 연결 다리 역할
 
     @Autowired
     private BookService bookService;
+    @Autowired
+    private ReservationService reservationService;
 
     @GetMapping("/bookSearchPage")
     public String bookSearch() {
@@ -85,7 +89,7 @@ public class BookController { // front와 backend 연결 다리 역할
 
     // Book 정소 수정 페이지
     @GetMapping("/editBookPage")
-    public String editBookPage(@RequestParam("isbn") String isbn, Model model) {
+    public String editBookPage(@RequestParam("bookIsbn") String isbn, Model model) {
         Book bookData = new Book();
         bookData.setIsbn(isbn);
         model.addAttribute("book", bookData);
@@ -122,5 +126,23 @@ public class BookController { // front와 backend 연결 다리 역할
         }
 
         return "redirect:/book/bookMangementPage";
+    }
+
+    @GetMapping("/cancealReservationPage")
+    public String cancealPage(@RequestParam("bookIsbn") String isbn, HttpSession httpSession) {
+        Object id = httpSession.getAttribute("id");
+        if (id == null) {
+            return "redirect:/user/loginError";
+        }
+        int result = this.reservationService.cancleReservation(Reservation.builder()
+                .isbn(isbn)
+                .customerId((String) id)
+                .build());
+
+        if (result == 0) {
+            return "error/delete-error-reservation-handler";
+        }
+
+        return "redirect:/user/mainUserPage";
     }
 }
