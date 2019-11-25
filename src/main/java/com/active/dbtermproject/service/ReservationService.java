@@ -17,4 +17,12 @@ public class ReservationService {
      * @return
      */
     public int insertReservation(Reservation reservation) { return this.reservationDao.insert(reservation);}
+
+    //예약 취소
+    /**
+     *
+     * @param reservation : reservation.isbn
+     * @return
+     */
+    public int cancleReservation(Reservation reservation) {return this.reservationDao.delete(reservation);}
 }
