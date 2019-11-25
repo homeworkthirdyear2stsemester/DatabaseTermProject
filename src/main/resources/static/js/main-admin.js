@@ -19,8 +19,16 @@ function logout() {
     location.href = "/user/logoutPage";// 위치 지정
 }
 
-function cancealReservation() {
-    if (!(confirm('예약을 취소 하시겠습니까?'))) {
-        return false
+function authorizeReturn() {
+    if (!(confirm("책 반납 승인 대기목록을 조회하시겠습니까?"))) {
+        return false;
     }
+    location.href = "/book/authorizeReturn";// 위치 지정
+}
+
+function gotoTopTenPage() {
+    if (!(confirm("top 10 목록을 조회 하시겠습니까?"))) {
+        return false;
+    }
+    location.href = "/book/topTenPage";
 }

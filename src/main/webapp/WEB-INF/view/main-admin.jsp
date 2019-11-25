@@ -9,12 +9,14 @@
 </head>
 <body>
 <td><span>BookFLIX 관리자님 환영합니다.</span></td>
-<table border="1" align="center" width="260">
+<table border="1" align="center">
     <tr>
         <td>
             <input type="button" onclick="gotoBookRegister()" value="도서등록"/>
             <input type="button" onclick="gotoBookMangement()" value="도서관리"/>
             <input type="button" onclick="logout()" value="로그아웃"/>
+            <input type="button" onclick="authorizeReturn()" value="반납승인대기 목록"/>
+            <input type="button" onclick="gotoTopTenPage()" value="Top 10 조회"/>
         </td>
     </tr>
 </table>
