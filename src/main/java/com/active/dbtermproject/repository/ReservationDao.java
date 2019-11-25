@@ -44,7 +44,7 @@ public class ReservationDao {
     }
 
     // "isbn"을 예약한 목록 반환
-    public List<Reservation> getAllReservByIsbn(String isbn) {
+    public List<Reservation> getAllReservByIsbn(Reservation reservation) {
         return this.jdbcTemplate.query(
                 "SELECT * FROM reservation WHERE isbn=?",
                 (rs, rowNum) -> Reservation.builder()
@@ -52,13 +52,13 @@ public class ReservationDao {
                         .isbn(rs.getString("isbn"))
                         .reservDate(rs.getDate("reserv_date"))
                         .build(),
-                isbn);
+                reservation.getIsbn());
     }
 
-    //위에서 작성한 함수를 호출해 isbn이 예약한 리스트 가져옴
+    //위에서 작성한 함수를 호출해 isbn이 예약한 리스트 가져와 사이즈 리턴
     public int howManyPerIsbn(Reservation reservation){
-        List<Reservation> listOfReservation=getAllReservByIsbn(reservation.getIsbn());
-        return listOfReservation.size();//리스트의 사이즈 리턴
+        List<Reservation> listOfReservation=getAllReservByIsbn(reservation);
+        return listOfReservation.size();
     }
 
 }

@@ -43,4 +43,12 @@ public class ReservationService {
      * @return
      */
     public int howManyReservationPerIsbn(Reservation reservation){return this.reservationDao.howManyPerIsbn(reservation);}
+
+    //주어진 isbn이 예약된 목록들 반환
+    /**
+     *
+     * @param reservation : reservation.isbn
+     * @return
+     */
+    public List<Reservation> whoReservedPerIsbn(Reservation reservation){return this.reservationDao.getAllReservByIsbn(reservation);}
 }
