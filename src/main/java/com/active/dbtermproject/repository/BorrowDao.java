@@ -5,6 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
+import java.util.List;
+import java.util.Map;
+
 @Repository
 public class BorrowDao { // db접근 함수들
 
@@ -30,10 +34,26 @@ public class BorrowDao { // db접근 함수들
                 borrow.getIsbn(), borrow.getTitle(), customerId, dueDate, 0);
     }
 
+    // is_return을 1로 변경하는 함수
     public int setReturnTrue(Borrow borrow) {
         return jdbcTemplate.update(
                 "UPDATE borrow SET is_return=1 WHERE isbn=? AND customer_id=? AND is_return=0",
                 borrow.getIsbn(), borrow.getCustomerId()
+        );
+    }
+
+    // start <= x <= end 기간 사이의 Top10 대출 수 회원
+    public List<Map<String, Object>> getTop10CustomerByPeriod(Date start, Date end) {
+        return this.jdbcTemplate.queryForList(
+                "SELECT id, password, email, name, phone_number, type, cnt_borrow " +
+                    "FROM customer c, " +
+                        "(SELECT customer_id, count(*) as cnt_borrow " +
+                        "FROM borrow " +
+                        "WHERE borrow_date BETWEEN ? AND ? " +
+                        "GROUP BY customer_id " +
+                        "order by cnt_borrow desc) as b " +
+                    "WHERE id = customer_id"
+                , start, end
         );
     }
 }
