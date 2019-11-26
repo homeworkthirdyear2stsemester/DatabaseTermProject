@@ -65,17 +65,19 @@ public class BorrowDao { // db접근 함수들
                 );
 
         // 타입을 "학부생", "대학원생", "교직원"으로 반환
-        return this.jdbcTemplate.queryForList(
-                "SELECT id, password, email, name, phone_number, type, cnt_borrow " +
-                    "FROM customer c, " +
-                        "(SELECT customer_id, count(*) as cnt_borrow " +
-                        "FROM borrow " +
-                        "WHERE borrow_date BETWEEN ? AND ? " +
-                        "GROUP BY customer_id " +
-                        "order by cnt_borrow desc) as b " +
-                    "WHERE id = customer_id"
-                , start, end
-        );
+        for(int i=0; i<top10List.size(); i++) {
+            String type = (String) top10List.get(i).get("type");
+
+            String newType = "학부생";
+            if(type.equals("30"))
+                newType = "대학원생";
+            else if(type.equals("60"))
+                newType = "교직원";
+
+            top10List.get(i).put("type", newType);
+        }
+
+        return top10List;
     }
 
     //회원의 대출 현황 조회
