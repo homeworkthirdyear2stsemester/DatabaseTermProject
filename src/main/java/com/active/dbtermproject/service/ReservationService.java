@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.sql.Date;
 
 @Service
 public class ReservationService {
@@ -51,4 +52,13 @@ public class ReservationService {
      * @return
      */
     public List<Reservation> whoReservedPerIsbn(Reservation reservation){return this.reservationDao.getAllReservByIsbn(reservation);}
+
+    /**
+     *
+     * @param reservation : reservation.isbn
+     * @return : 대출 가능한 날짜(YYYY-MM-DD)
+     */
+    public Date possibleBorrowDate(Reservation reservation){
+        return this.reservationDao.availableDate(reservation);
+    }
 }

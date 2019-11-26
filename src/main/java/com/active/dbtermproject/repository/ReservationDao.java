@@ -70,7 +70,7 @@ public class ReservationDao {
 
     public Date availableDate(Reservation reservation) {
         Optional<Borrow> temp = jdbcTemplate.queryForObject(
-                "select * from teamproject.borrow where isbn= ?",
+                "select * from teamproject.borrow where isbn=? AND is_return=0",//아직 반납되지 않은 해당 isbn이라면 return_date가져오기
                 new Object[]{reservation.getIsbn()},
                 (rs, rowNum) ->
                         Optional.of(Borrow.builder()
@@ -96,19 +96,21 @@ public class ReservationDao {
 
         List<Map<String, Object>> countPerType =
                 this.jdbcTemplate.queryForList(
-                        "SELECT type, SUM(cnt) " +
-                                "FROM customer c, (SELECT customer_id, count(*) as cnt " +
-                                "FROM reservation )" +
-                                "WHERE isbn=?");
-        List<Reservation> listOfReservation = getAllReservByIsbn(reservation);//해당 isbn을 예약한 목록 가져옴
-        for (int i = 0; i < listOfReservation.size(); i++) {//리스트 사이즈만큼 반복
-            type = customerDao.getTypeById(listOfReservation.get(i).getCustomerId());//리스트 원소마다 타입 가져옴
+                        "SELECT c.type,count(*) as count " +
+                                "FROM teamproject.reservation r " +
+                                "INNER JOIN teamproject.customer c " +
+                                "ON r.customer_id=c.id and r.isbn=? " +
+                                "GROUP BY c.type"
+                        , reservation.getIsbn());//타입당 갯수 반환
+
+        for (int i = 0; i < countPerType.size(); i++) {//리스트 사이즈만큼 반복
+            type= (String) countPerType.get(i).get("type");
             if (type.equals("30")) {//타입마다 다른 일수 합치기
-                plusDate += 30;
+                plusDate += 30 * (Long)countPerType.get(i).get("count");
             } else if (type.equals("60")) {
-                plusDate += 60;
+                plusDate += 60 * (Long)countPerType.get(i).get("count");
             } else {
-                plusDate += 10;
+                plusDate += 10 * (Long)countPerType.get(i).get("count");
             }
         }
         cal.add(cal.DATE, plusDate);
