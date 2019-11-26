@@ -51,8 +51,11 @@ public class BookController { // front와 backend 연결 다리 역할
 
         List<Book> books;
         if (type.equals("isbn")) {
+            Book resultBook = this.bookService.searchBookByIsbn(data);
             books = new ArrayList<>();
-            books.add(this.bookService.searchBookByIsbn(data));
+            if (resultBook != null) {
+                books.add(resultBook);
+            }
         } else {
             books = this.bookService.searchBookByTitle(data);
         }
@@ -193,5 +196,18 @@ public class BookController { // front와 backend 연결 다리 역할
         calendar.add(calendar.DATE, -days);
 
         return new Date(calendar.getTimeInMillis());
+    }
+
+    @GetMapping("/waitingForReturn")
+    public String waitingForReturn(@RequestParam("bookIsbn") String isbn,
+                                   @RequestParam("borrowNumber") int borrowNumber) {
+//        this.borrowService. request return 해야함
+//        return "redirect:book/returnRequestErrorHandler";//error
+        return "redirect:user/mainUserPage"; // 성공
+    }
+
+    @GetMapping("/returnRequestErrorHandler")
+    public String returnRequestErrorHandler() {
+        return "error/request-return-error-handler";
     }
 }

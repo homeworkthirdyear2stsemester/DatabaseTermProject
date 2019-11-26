@@ -39,7 +39,7 @@
         </c:forEach>
         </tbody>
     </table>
-    <input type="button" onclick="goToSearchPage()" value="검색 화면으로 이동"/>
+    <input type="button" onclick="goToSearhPage()" value="검색 화면으로 이동"/>
 </div>
 <script type="text/javascript" src="/resources/js/search.js">
 </script>

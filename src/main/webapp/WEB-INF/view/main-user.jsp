@@ -37,11 +37,16 @@
         </thead>
         <tbody>
         <c:forEach var="borrow" items="${borrows}">
+            <c:url var="returnRequest" value="/book/waitingForReturn">
+                <c:param name="bookIsbn" value="${borrow.isbn}"/>
+                <c:param name="borrowNumber" value="${borrow.borrowNumber}"/>
+            </c:url>
             <tr>
                 <td>${borrow.isbn}</td>
                 <td>${borrow.title}</td>
                 <td>${borrow.borrowDate}</td>
                 <td>${borrow.returnDate}</td>
+                <td><a href="${returnRequest}" onclick="requestReturn()">예약 취소</a></td>
             </tr>
         </c:forEach>
         </tbody>

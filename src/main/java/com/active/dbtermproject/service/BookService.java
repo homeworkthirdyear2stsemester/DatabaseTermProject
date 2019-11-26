@@ -50,7 +50,12 @@ public class BookService { // 예외처리 및 데이터 가공 등등을 해야
      * @return : 리턴 찾은 책 한개
      */
     public Book searchBookByIsbn(String isbn) {
-        Optional<Book> bookOptional = this.bookDao.searchByIsbn(isbn);
+        Optional<Book> bookOptional;
+        try {
+            bookOptional = this.bookDao.searchByIsbn(isbn);
+        } catch (Exception e) {
+            bookOptional = Optional.empty();
+        }
 
         return bookOptional.orElse(null);
     }
@@ -76,6 +81,7 @@ public class BookService { // 예외처리 및 데이터 가공 등등을 해야
     }
 
     // isbn에 해당하는 책을 "빌림" 싱태로 바꿈. (is_borrow를 1로 갱신)
+
     /**
      * @param isbn : "빌림" 상태로 바꿀 isbn
      * @return : 성공하면 1, 실패하면 0
@@ -85,6 +91,7 @@ public class BookService { // 예외처리 및 데이터 가공 등등을 해야
     }
 
     //반납 승인(DB Book.is_borrow 0으로 갱신)
+
     /**
      * @param isbn : book.isbn
      * @return
