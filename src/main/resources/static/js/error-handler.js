@@ -34,7 +34,7 @@ function requestReturnError() {
 }
 
 function returnBorrowErrorHandler() {
-    alert("This book is unavailable to borrow.");
+    alert("This book is unavailable to borrow or reservation.");
     location.href = "/book/bookSearchPage";
 }
 
