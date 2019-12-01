@@ -21,18 +21,18 @@ public class ReservationDao {
     private CustomerDao customerDao;
 
     // 예약 추가
-    public int insert(Reservation reservation) throws Exception{
-        if(isAreadyReserv(reservation)==0){//예약되어 있지않다면 insert
+    public int insert(String customerId, String isbn) throws Exception{
+        if(isAreadyReserv(isbn)==0){//예약되어 있지않다면 insert
             return this.jdbcTemplate.update(
                     "insert into teamproject.reservation(customer_id,isbn,reserv_date) values(?,?,?)",
-                    new Object[]{reservation.getCustomerId(), reservation.getIsbn(), reservation.getReservDate()}
+                    new Object[]{customerId, isbn, new Date(new java.util.Date().getTime())}
             );
         }else{
             return 0;//이미 예약되어 있다면 insert안하고 0리턴
         }
     }
 
-    public int isAreadyReserv(Reservation reservation) throws Exception{//이미 예약자가 있는지 확인
+    private int isAreadyReserv(String isbn) throws Exception{//이미 예약자가 있는지 확인
         List<Reservation> isreserv=jdbcTemplate.query(
                 "SELECT * FROM teamproject.reservation where isbn=?",
                 (rs, rowNum) ->
@@ -41,7 +41,7 @@ public class ReservationDao {
                                 .isbn(rs.getString("isbn"))
                                 .reservDate(rs.getDate("reserv_date"))
                                 .build()
-                ,  new Object[]{reservation.getIsbn()}
+                ,  new Object[]{isbn}
         );
         if(isreserv.size() > 0){
             return 1;//이미 예약되어있으면 1 리턴
