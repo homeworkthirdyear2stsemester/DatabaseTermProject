@@ -25,9 +25,10 @@ public class BorrowDao { // db접근 함수들
     public int insert(Borrow borrow) throws Exception {
         String customerId = borrow.getCustomerId();
 
+        // book 테이블의 is_borrow를 1로 갱신
         // 누가 이미 빌려갔다면 대출 거부
-        Optional<Book> book = bookDao.searchByIsbn(borrow.getIsbn());
-        if (bookDao.checkIfBorrowed(book.get()) == 0)
+        int setBorrowed = this.bookDao.setBookToBorrowed(borrow.getIsbn());
+        if(setBorrowed==0)
             return 0;
 
         String customerType = customerDao.getTypeById(customerId);
@@ -36,11 +37,6 @@ public class BorrowDao { // db접근 함수들
             dueDate = 30;
         else if(customerType.equals("교직원"))
             dueDate = 60;
-
-        // book 테이블의 is_borrow를 1로 갱신
-        int success = this.bookDao.setBookToBorrowed(borrow.getIsbn());
-        if(success==0)
-            return 0;
 
         return this.jdbcTemplate.update(
                 "INSERT INTO borrow " +
