@@ -5,7 +5,9 @@ import com.active.dbtermproject.repository.BorrowDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Array;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,19 +20,27 @@ public class BorrowService { // 예외처리 및 데이터 가공 등등을 해�
     /**
      *
      * @param borrow : borrow.isbn, borrow.title, borrow.customerId
-     * @return : 성공시 1, book 테이블의 is_borrow를 1로 갱신
+     * @return : 성공시 1, book 테이블의 is_borrow를 1로 갱신. 실패 시 0
      */
     public int insertBorrow(Borrow borrow) {
-        return this.borrowDao.insert(borrow);
+        try {
+            return this.borrowDao.insert(borrow);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     //도서 반납 요청(borrow.isReturn을 1로 변경)
     /**
-     * @param borrow : borrow.isbn, borrow.customerId
-     * @return : 성공시 1
+     * @param borrowNumber : borrow.customerId
+     * @return : 성공시 1, 실패 시 0
      */
-    public int requestReturn(Borrow borrow) {
-        return this.borrowDao.setReturnTrue(borrow);
+    public int requestReturn(int borrowNumber) {
+        try {
+            return this.borrowDao.setReturnTrue(borrowNumber);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     // 일정 기간 동안 대출을 많이한 Top 10 회원 검색
@@ -42,7 +52,11 @@ public class BorrowService { // 예외처리 및 데이터 가공 등등을 해�
      *           - 마지막 값이 해당 회원의 대출 수
      */
     public List<Map<String, Object>> getTop10CustomerByPeriod(Date start, Date end) {
-        return borrowDao.getTop10CustomerByPeriod(start, end);
+        try {
+            return borrowDao.getTop10CustomerByPeriod(start, end);
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
     }
 
     //회원의 대출 현황 조회
@@ -52,7 +66,11 @@ public class BorrowService { // 예외처리 및 데이터 가공 등등을 해�
      * @return : 회원의 대출 현황 List
      */
     public List<Borrow> getAllBorrowsById(String customerId) {
-        return borrowDao.getAllBorrowsById(customerId);
+        try {
+            return borrowDao.getAllBorrowsById(customerId);
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
     }
 
     // 반납된 대출 기록 삭제
@@ -61,7 +79,11 @@ public class BorrowService { // 예외처리 및 데이터 가공 등등을 해�
      * @return : 삭제된 대출 기록 수
      */
     public int deleteReturnedBorrows() {
-        return borrowDao.deleteReturnedBorrows();
+        try {
+            return borrowDao.deleteReturnedBorrows();
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
 
@@ -71,6 +93,10 @@ public class BorrowService { // 예외처리 및 데이터 가공 등등을 해�
      * @return : 반납 승인 대기중인 Borrows 리스트
      */
     public List<Borrow> getBorrowsThatAwaitingApprovalForReturn() {
-        return borrowDao.getBorrowsThatAwaitingApprovalForReturn();
+        try {
+            return borrowDao.getBorrowsThatAwaitingApprovalForReturn();
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
     }
 }
