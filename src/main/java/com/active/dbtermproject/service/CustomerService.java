@@ -5,6 +5,7 @@ import com.active.dbtermproject.repository.CustomerDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,7 +20,11 @@ public class CustomerService { // 예외처리 및 데이터 가공 등등을 �
      * @return : 성공시 1, 실패시 0
      */
     public int insertService(Customer customer) {
-        return this.customerDao.insert(customer);
+        try {
+            return this.customerDao.insert(customer);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     // 회원 삭제 : delete Customer
@@ -29,7 +34,11 @@ public class CustomerService { // 예외처리 및 데이터 가공 등등을 �
      * @return : 성공시 1, 실패시 0
      */
     public int deleteService(String customerId) {
-        return this.customerDao.delete(customerId);
+        try {
+            return this.customerDao.delete(customerId);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     // 회원 정보 수정 : update Customer
@@ -41,19 +50,27 @@ public class CustomerService { // 예외처리 및 데이터 가공 등등을 �
      */
     public int updateService(String customerId, Customer newInfo) {
         if (customerId == null) {
-            throw new NullPointerException();
+            return 0;
         }
-        return this.customerDao.update(customerId, newInfo);
+        try {
+            return this.customerDao.update(customerId, newInfo);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     // id에 해당하는 customer 객체를 반환하는 함수
     /**
      *
      * @param customerId : 회원 id
-     * @return : 해당 회원 객체
+     * @return : 해당 회원 객체, 없으면 null 반환
      */
     public Customer getCustomerByIdService(String customerId) {
-        return this.customerDao.getCustomerById(customerId);
+        try {
+            return this.customerDao.getCustomerById(customerId);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     // 모든 회원들 반환 (Customer table 전체 반환)
@@ -62,16 +79,24 @@ public class CustomerService { // 예외처리 및 데이터 가공 등등을 �
      * @return : 모든 회원들 List
      */
     public List<Customer> getAllCustomers() {
-        return customerDao.getAllCustomers();
+        try {
+            return customerDao.getAllCustomers();
+        } catch (Exception e) {
+            return new ArrayList<Customer>();
+        }
     }
 
     // 관리자인지 확인하는 함수
     /**
      *
      * @param customerId : 확인할 id
-     * @return : 관리자(type="admin")라면 true
+     * @return : 관리자(type="admin")라면 true, 아니라면 false
      */
     public boolean isAdmin(String customerId) {
-        return customerDao.isAdmin(customerId);
+        try {
+            return customerDao.isAdmin(customerId);
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
