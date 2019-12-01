@@ -15,25 +15,25 @@
     <span>대출 TOP 10 리스트입니다</span><br>
     <table id="topten-list">
         <thead>
-        <td>id</td>
-        <td>name</td>
-        <td>type</td>
-        <td>borrowCount</td>
+        <td class="ex1">id</td>
+        <td class="ex1">name</td>
+        <td class="ex1">type</td>
+        <td class="ex1">borrowCount</td>
         </thead>
         <tbody>
         <c:forEach var="map" items="${topTenData}">
             <tr>
-                <td>${map.id}</td>
-                <td>${map.name}</td>
-                <td>${map.type}</td>
-                <td>${map.cnt_borrow}</td>
+                <td class="ex2">${map.id}</td>
+                <td class="ex2">${map.name}</td>
+                <td class="ex2">${map.type}</td>
+                <td class="ex2">${map.cnt_borrow}</td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
+    <input type="button" onclick="refresh()" value="새로고침">
+    <input type="button" onclick="gotoAdminMainPage()" value="돌아가기">
 </div>
-<input type="button" onclick="refresh()" value="새로고침">
-<input type="button" onclick="gotoAdminMainPage()" value="돌아가기">
 </body>
 <script type="text/javascript" src="/resources/js/topTen.js">
 </script>

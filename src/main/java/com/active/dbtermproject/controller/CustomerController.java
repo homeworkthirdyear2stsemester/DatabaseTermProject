@@ -115,6 +115,9 @@ public class CustomerController { // front와 backend 연결 다리 역할
     public String loginCheck(@ModelAttribute("customer") Customer customer,
                              HttpSession httpSession) {
         Customer databaseCustomer = this.customerService.getCustomerByIdService(customer.getId());
+        if(databaseCustomer == null){
+            return "redirect:/user/login";//입력된 ID가 존재하지 않을 경우
+        }
         if (databaseCustomer.getId().equals(customer.getId()) &&
                 databaseCustomer.getPassword().equals(customer.getPassword())) {
             httpSession.setAttribute("id", customer.getId());
