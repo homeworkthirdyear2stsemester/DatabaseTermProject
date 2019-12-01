@@ -14,6 +14,7 @@ public class ReservationService {
     @Autowired
     private ReservationDao reservationDao;
 
+
     //예약 추가
     /**
      *
@@ -95,6 +96,20 @@ public class ReservationService {
         } catch(Exception e) {
             return null;
         }
-
     }
+
+    //이미 예약되어 있는지 확인
+    /**
+     *
+     * @param reservation:reservation.isbn
+     * @return :예약자가 있으면 1,없으면 0 리턴
+     */
+    public int isAreadyReserv(Reservation reservation){
+        try{
+            return this.reservationDao.isAreadyReserv(reservation);
+        } catch(Exception e) {
+            return 0;
+        }
+    }
+
 }
