@@ -23,7 +23,7 @@ public class CustomerDao { // db접근 함수들
                         .email(rs.getString("email"))
                         .name(rs.getString("name"))
                         .phoneNumber(rs.getString("phone_number"))
-                        .type(rs.getString("type")).build());
+                        .type(convertType(rs.getString("type"))).build());
     }
 
     // 회원 가입
@@ -66,7 +66,7 @@ public class CustomerDao { // db접근 함수들
     // 관리자인지 확인하는 함수
     public boolean isAdmin(String customerId) {
         String type = getTypeById(customerId);
-        return type.equals("admin");
+        return type.equals("관리자");
     }
 
     // id로 customer 검색
@@ -79,13 +79,23 @@ public class CustomerDao { // db접근 함수들
                         .email(rs.getString("email"))
                         .name(rs.getString("name"))
                         .phoneNumber(rs.getString("phone_number"))
-                        .type(rs.getString("type")).build(), customerId);
+                        .type(convertType(rs.getString("type"))).build(), customerId);
     }
 
     // id로 해당 customer의 type 검색
     public String getTypeById(String customerId) {
-        return jdbcTemplate.queryForObject(
+        return convertType(jdbcTemplate.queryForObject(
                 "select type from customer c where c.id=?",
-                new Object[]{customerId}, String.class);
+                new Object[]{customerId}, String.class));
+    }
+
+    public String convertType(String type) {
+        if(type.equals("10"))
+            return "학부생";
+        if(type.equals("30"))
+            return "대학원생";
+        if(type.equals("60"))
+            return "교직원";
+        return "관리자";
     }
 }

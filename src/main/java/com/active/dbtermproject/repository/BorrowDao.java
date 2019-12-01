@@ -23,9 +23,9 @@ public class BorrowDao { // db접근 함수들
         String customerId = borrow.getCustomerId();
         String customerType = customerDao.getTypeById(customerId);
         int dueDate = 10;
-        if(customerType.equals("30"))
+        if(customerType.equals("대학원생"))
             dueDate = 30;
-        else if(customerType.equals("60"))
+        else if(customerType.equals("교직원"))
             dueDate = 60;
 
         // book 테이블의 is_borrow를 1로 갱신
@@ -40,7 +40,7 @@ public class BorrowDao { // db접근 함수들
                 borrow.getIsbn(), borrow.getTitle(), customerId, dueDate, 0);
     }
 
-    // is_return을 1로 변경하는 함수
+    // 반납 요청하는 함수(is_return을 1로 변경)
     public int setReturnTrue(Borrow borrow) {
         return jdbcTemplate.update(
                 "UPDATE borrow SET is_return=1 WHERE isbn=? AND customer_id=? AND is_return=0",
@@ -66,14 +66,7 @@ public class BorrowDao { // db접근 함수들
 
         // 타입을 "학부생", "대학원생", "교직원"으로 반환
         for(int i=0; i<top10List.size(); i++) {
-            String type = (String) top10List.get(i).get("type");
-
-            String newType = "학부생";
-            if(type.equals("30"))
-                newType = "대학원생";
-            else if(type.equals("60"))
-                newType = "교직원";
-
+            String newType = customerDao.convertType((String)top10List.get(i).get("type"));
             top10List.get(i).put("type", newType);
         }
 
