@@ -120,7 +120,7 @@ public class BookController { // front와 backend 연결 다리 역할
             return "redirect:/book/editBookPage"; // 실패
         }
 
-        return "redirect:/book/bookMangementPage"; // 성공
+        return "redirect:/book/bookManagementPage"; // 성공
     }
 
     @GetMapping("/deleteError")
@@ -135,7 +135,7 @@ public class BookController { // front와 backend 연결 다리 역할
             return "redirect:/book/deleteError";
         }
 
-        return "redirect:/book/bookMangementPage";
+        return "redirect:/book/bookManagementPage";
     }
 
     @GetMapping("/cancealReservationPage")
