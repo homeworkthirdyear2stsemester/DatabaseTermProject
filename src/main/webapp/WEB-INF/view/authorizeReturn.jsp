@@ -18,10 +18,9 @@
         <tr>
             <td class="ex1">ISBN</td>
             <td class="ex1">Title</td>
-            <td class="ex1">Author</td>
+            <td class="ex1">CustomerID</td>
             <td class="ex1">Publisher</td>
             <td class="ex1">Borrowed</td>
-            <td class="ex1">CustomerID</td>
         </tr>
         </thead>
         <tbody>
