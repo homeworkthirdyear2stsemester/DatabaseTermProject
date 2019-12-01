@@ -6,13 +6,22 @@
 <head>
     <meta charset="UTF-8">
     <title>대여, 예약</title>
-    <link rel="stylesheet" href="/resources/css/search.css">
+    <link rel="stylesheet" href="/resources/css/search-result.css">
 
 </head>
 <body>
-
 <div>
+    <span>도서 검색 결과</span>
+</div>
+<div class="ex1">
     <table>
+        <thead>
+        <td class="ex1">Isbn</td>
+        <td class="ex1">Title</td>
+        <td class="ex1">Author</td>
+        <td class="ex1">Publisher</td>
+        <td class="ex1">Available</td>
+        </thead>
         <tbody>
         <c:forEach var="book" items="${books}">
             <c:url var="borrowLink" value="/book/makeBorrow">
@@ -23,11 +32,11 @@
             </c:url>
 
             <tr>
-                <td>${book.isbn}</td>
-                <td>${book.title}</td>
-                <td>${book.author}</td>
-                <td>${book.publisher}</td>
-                <td>${book.isBorrow}</td>
+                <td class="ex2">${book.isbn}</td>
+                <td class="ex2">${book.title}</td>
+                <td class="ex2">${book.author}</td>
+                <td class="ex2">${book.publisher}</td>
+                <td class="ex2">${book.isBorrow}</td>
                 <td>
                     <a href="${borrowLink}"
                        onclick="if (!(confirm('대출을 하시겠습니까?'))) return false">대출</a>

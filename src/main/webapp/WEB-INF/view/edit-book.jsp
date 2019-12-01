@@ -19,7 +19,6 @@
     <form:form action="editBook" modelAttribute="book" method="GET">
         <form:hidden path="isbn"/>
         <span>도서수정하기</span><br>
-        <!-- 입력된 isbn 출력시키기 -->
         책제목 입력 :<form:input path="title"/><br>
         작가 입력 : <form:input path="author"/><br>
         출판사 입력 :<form:input path="publisher"/><br>

@@ -16,10 +16,10 @@
 <form:form action="registerBook" modelAttribute="book" method="GET">
     <div class="ex1">
         <span>도서등록하기</span><br>
-        도서 isbn 입력 :<form:input path="isbn"/><br>
-        책제목 입력 :<form:input path="title"/><br>
-        작가 입력 : <form:input path="author"/><br>
-        출판사 입력 :<form:input path="publisher"/><br>
+        도서 isbn 입력 :<form:input path="isbn" maxlength="13"/><br>
+        책제목 입력 :<form:input path="title" maxlength="60"/><br>
+        작가 입력 : <form:input path="author" maxlength="45"/><br>
+        출판사 입력 :<form:input path="publisher" maxlength="45"/><br>
         <input type="submit"
                onclick="if (!(confirm('등록 하시겠습니까?'))) return false"
                value="도서등록"/>

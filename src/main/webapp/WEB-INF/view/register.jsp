@@ -15,25 +15,25 @@
         </tr>
         <tr>
             <td>이름 입력</td>
-            <td><form:input path="name"/></td>
+            <td><form:input path="name" maxlength="10"/></td>
         </tr>
         <tr>
             <td>사용할 아이디 입력</td>
             <td>
-                <form:input path="id"/>
+                <form:input path="id" maxlength="20"/>
             </td>
         </tr>
         <tr>
             <td>암호 입력</td>
-            <td><form:password path="password"/></td>
+            <td><form:password path="password" maxlength="20"/></td>
         </tr>
         <tr>
             <td>이메일 주소</td>
-            <td><form:input path="email"/></td>
+            <td><form:input path="email" maxlength="30"/></td>
         </tr>
         <tr>
             <td>전화번호</td>
-            <td><form:input path="phoneNumber"/></td>
+            <td><form:input path="phoneNumber" maxlength="11"/></td>
         </tr>
         <tr>
             <td>회원 분류</td>

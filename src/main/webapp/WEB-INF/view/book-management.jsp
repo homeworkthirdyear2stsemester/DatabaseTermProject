@@ -10,18 +10,23 @@
 </head>
 <body>
 <div>
-    <span>도서관리를 담당하는 페이지입니다.</span>
+    <span>저장된 도서목록</span>
 </div>
 
 <div class="ex1">
     <table>
         <thead>
         <tr>
-            <%-- <th></th>  작성하세요--%>
+            <td class="ex1">ISBN</td>
+            <td class="ex1">Title</td>
+            <td class="ex1">Author</td>
+            <td class="ex1">Publisher</td>
+            <td class="ex1">Borrowed</td>
+            <td class="ex1">CustomerID</td>
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="book" items="${books}">
+        <c:forEach var="book" items="${books}" >
             <c:url var="deleteLink" value="/book/delete">
                 <c:param name="bookIsbn" value="${book.isbn}"/>
             </c:url>
@@ -29,12 +34,12 @@
                 <c:param name="bookIsbn" value="${book.isbn}"/>
             </c:url>
             <tr>
-                <td>${book.isbn}</td>
-                <td>${book.title}</td>
-                <td> ${book.author} </td>
-                <td>${book.publisher}</td>
-                <td> ${book.isBorrow}</td>
-                <td>${book.customerId}</td>
+                <td class="ex2">${book.isbn}</td>
+                <td class="ex2">${book.title}</td>
+                <td class="ex2"> ${book.author} </td>
+                <td class="ex2">${book.publisher}</td>
+                <td class="ex2"> ${book.isBorrow}</td>
+                <td class="ex2">${book.customerId}</td>
                 <td>
                     <a href="${deleteLink}"
                        onclick="if (!(confirm('책을 목록에서 삭제 하시겠습니까?'))) return false">제거</a>

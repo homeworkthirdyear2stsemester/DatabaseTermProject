@@ -1,5 +1,7 @@
 # scheme "teamproject"
 
+
+
 CREATE TABLE `teamproject`.`customer` (
   `id` VARCHAR(20) NOT NULL,
   `password` VARCHAR(20) NULL,
@@ -62,5 +64,9 @@ CREATE TABLE `teamproject`.`reservation` (
     REFERENCES `teamproject`.`book` (`isbn`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
-
-    
+SET FOREIGN_KEY_CHECKS = 0;
+alter table teamproject.book convert to charset utf8;
+alter table teamproject.borrow convert to charset utf8;
+alter table teamproject.customer convert to charset utf8;
+alter table teamproject.reservation convert to charset utf8;
+SET FOREIGN_KEY_CHECKS = 1;

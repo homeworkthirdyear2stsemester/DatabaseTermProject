@@ -16,15 +16,15 @@
         </tr>
         <tr>
             <td>암호 재입력</td>
-            <td><form:password path="password"/></td>
+            <td><form:password path="password" maxlength="20"/></td>
         </tr>
         <tr>
             <td>이메일 주소 재설정</td>
-            <td><form:input path="email"/></td>
+            <td><form:input path="email" maxlength="30"/></td>
         </tr>
         <tr>
             <td>전화번호 재입력</td>
-            <td><form:input path="phoneNumber"/></td>
+            <td><form:input path="phoneNumber" maxlength="11" /></td>
         </tr>
         <tr>
             <td>회원 분류</td>
