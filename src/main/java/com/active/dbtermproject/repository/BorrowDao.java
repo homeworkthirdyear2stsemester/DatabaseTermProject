@@ -40,7 +40,7 @@ public class BorrowDao { // db접근 함수들
                 borrow.getIsbn(), borrow.getTitle(), customerId, dueDate, 0);
     }
 
-    // is_return을 1로 변경하는 함수
+    // 반납 요청하는 함수(is_return을 1로 변경)
     public int setReturnTrue(Borrow borrow) {
         return jdbcTemplate.update(
                 "UPDATE borrow SET is_return=1 WHERE isbn=? AND customer_id=? AND is_return=0",
