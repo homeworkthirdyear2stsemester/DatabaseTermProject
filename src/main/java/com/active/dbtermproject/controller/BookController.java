@@ -8,6 +8,7 @@ import com.active.dbtermproject.service.BorrowService;
 import com.active.dbtermproject.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -246,5 +247,34 @@ public class BookController { // front와 backend 연결 다리 역할
         }
         // 실패
         return "redirect:borrowErrorHandlerPage";
+    }
+
+    @GetMapping("/borrowFailOfReservation")
+    public String borrowFailOfReservation() {
+        return "borrow-fail-reservation-error-handler";
+    }
+
+    @Transactional
+    @GetMapping("/makeBorrowForReservation")
+    public String makeBorrowForReservation(@RequestParam("bookIsbn") String isbn,
+                                           @RequestParam("bookTitle") String title,
+                                           HttpSession httpSession) {
+        Object id = httpSession.getAttribute("id");
+        if (id == null) {
+            return "redirect:../user/loginError";
+        }
+
+        if (this.borrowService.insertBorrow(
+                Borrow.builder()
+                        .title(title).isbn(isbn).customerId((String) id)
+                        .build()) != 0
+                && this.reservationService.cancleReservation(
+                Reservation.builder().
+                        customerId((String) id).isbn(isbn)
+                        .build()) != 0) {
+            return "redirect:../user/mainUserPage";
+        }
+
+        return "redirect:borrowFailOfReservation"; // error page 작성
     }
 }

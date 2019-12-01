@@ -64,7 +64,7 @@
             <c:url var="cancealLink" value="/book/cancealReservationPage">
                 <c:param name="bookIsbn" value="${reservation.isbn}"/>
             </c:url>
-            <c:url var="borrowLink" value="/book/makeBorrow">
+            <c:url var="borrowLink" value="/book/makeBorrowForReservation">
                 <c:param name="bookIsbn" value="${reservation.isbn}"/>
                 <c:param name="bookTitle" value="${reservation.title}"/>
             </c:url>

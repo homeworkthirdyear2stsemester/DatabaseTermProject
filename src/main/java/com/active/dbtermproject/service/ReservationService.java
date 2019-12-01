@@ -82,7 +82,7 @@ public class ReservationService {
         try {
             return this.reservationDao.getAllReservByIsbn(reservation);
         } catch (Exception e) {
-            return new ArrayList<>();
+            return new ArrayList<Reservation>();
         }
     }
 
