@@ -46,7 +46,7 @@ public class BookController { // front와 backend 연결 다리 역할
         Object id = httpSession.getAttribute("id");
 
         if (id == null) {
-            return "redirect:error/login-error-handler";
+            return "redirect:../user/loginError";
         }
 
         List<Book> books;
@@ -74,7 +74,7 @@ public class BookController { // front와 backend 연결 다리 역할
     public String registerBook(@ModelAttribute("book") Book book, HttpSession httpSession) {
         Object id = httpSession.getAttribute("id");
         if (id == null || !id.equals("Admin")) {
-            return "redirect:user/loginError";
+            return "redirect:../user/loginError";
         }
 
         int result = this.bookService.insertBook(book);
@@ -112,7 +112,7 @@ public class BookController { // front와 backend 연결 다리 역할
         Object idData = httpSession.getAttribute("id");
 
         if (idData == null || !(idData).equals("Admin")) {
-            return "redirect:user/loginError"; // login 다시 해야함
+            return "redirect:../user/loginError"; // login 다시 해야함
         }
 
         int result = this.bookService.updateBook(book);
@@ -142,7 +142,7 @@ public class BookController { // front와 backend 연결 다리 역할
     public String cancealPage(@RequestParam("bookIsbn") String isbn, HttpSession httpSession) {
         Object id = httpSession.getAttribute("id");
         if (id == null) {
-            return "redirect:/user/loginError";
+            return "redirect:../user/loginError";
         }
         int result = this.reservationService.cancleReservation(Reservation.builder()
                 .isbn(isbn)
@@ -153,7 +153,7 @@ public class BookController { // front와 backend 연결 다리 역할
             return "error/delete-error-reservation-handler";
         }
 
-        return "redirect:/user/mainUserPage";
+        return "redirect:../user/mainUserPage";
     }
 
     @GetMapping("/authorizeReturn")
@@ -199,15 +199,33 @@ public class BookController { // front와 backend 연결 다리 역할
     }
 
     @GetMapping("/waitingForReturn")
-    public String waitingForReturn(@RequestParam("bookIsbn") String isbn,
-                                   @RequestParam("borrowNumber") int borrowNumber) {
-//        this.borrowService. request return 해야함
-//        return "redirect:book/returnRequestErrorHandler";//error
-        return "redirect:user/mainUserPage"; // 성공
+    public String waitingForReturn(@RequestParam("borrowNumber") int borrowNumber) {
+        if (this.borrowService.requestReturn(borrowNumber) != 0) {
+            return "redirect:../user/mainUserPage"; // 성공
+        }
+
+        return "redirect:../user/mainUserPage"; // error page연결 하기
     }
 
     @GetMapping("/returnRequestErrorHandler")
     public String returnRequestErrorHandler() {
         return "error/request-return-error-handler";
+    }
+
+    @GetMapping("/makeBorrow")
+    public String borrowBook(@RequestParam("bookIsbn") String isbn,
+                             @RequestParam("bookTitle") String title,
+                             HttpSession httpSession) {
+        Object id = httpSession.getAttribute("id");
+        if (id == null) {
+            return "redirect:../user/loginError";
+        }
+
+        int result = this.borrowService.insertBorrow(Borrow.builder().title(title).isbn(isbn).customerId((String) id).build());
+        if (result != 0) {
+            return "redirect:bookSearchPage";
+        }
+
+        return null; // error page 작성
     }
 }
