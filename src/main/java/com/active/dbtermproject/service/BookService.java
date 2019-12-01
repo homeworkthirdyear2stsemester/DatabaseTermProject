@@ -5,6 +5,7 @@ import com.active.dbtermproject.repository.BookDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +21,11 @@ public class BookService { // 예외처리 및 데이터 가공 등등을 해야
      * @return
      */
     public int insertBook(Book book) {
-        return this.bookDao.insert(book);
+        try{
+            return this.bookDao.insert(book);
+        } catch(Exception e){
+            return 0;
+        }
     }
 
     //도서 삭제
@@ -30,7 +35,11 @@ public class BookService { // 예외처리 및 데이터 가공 등등을 해야
      * @return
      */
     public int deleteBook(String isbn) {
-        return this.bookDao.delete(isbn);
+        try{
+            return this.bookDao.delete(isbn);
+        } catch(Exception e){
+            return 0;
+        }
     }
 
     //도서 정보 갱신
@@ -39,8 +48,13 @@ public class BookService { // 예외처리 및 데이터 가공 등등을 해야
      * @param book : isbn,title,author,publisher,isBorrow,customerId 순서대로
      * @return
      */
-    public int updateBook(Book book) {
-        return this.bookDao.update(book);
+    public int updateBook(Book book)
+    {
+        try{
+            return this.bookDao.update(book);
+        } catch(Exception e){
+            return 0;
+        }
     }
 
     //도서 검색
@@ -67,7 +81,11 @@ public class BookService { // 예외처리 및 데이터 가공 등등을 해야
      * @return : 리턴 찾은 책 여러개 가능
      */
     public List<Book> searchBookByTitle(String bookTitle) {
-        return this.bookDao.searchByTitle(bookTitle);
+        try{
+            return this.bookDao.searchByTitle(bookTitle);
+        } catch(Exception e){
+            return new ArrayList<Book>();
+        }
     }
 
     //대출 가능 유무
@@ -77,7 +95,11 @@ public class BookService { // 예외처리 및 데이터 가공 등등을 해야
      * @return :1이면 대여가능, 0이면 대여 불가능
      */
     public int isPossibleToBorrow(Book book) {
-        return this.bookDao.checkIfBorrowed(book);
+        try{
+            return this.bookDao.checkIfBorrowed(book);
+        } catch(Exception e){
+            return 0;
+        }
     }
 
     // isbn에 해당하는 책을 "빌림" 싱태로 바꿈. (is_borrow를 1로 갱신)
@@ -87,7 +109,11 @@ public class BookService { // 예외처리 및 데이터 가공 등등을 해야
      * @return : 성공하면 1, 실패하면 0
      */
     public int setBookToBorrowed(String isbn) {
-        return this.bookDao.setBookToBorrowed(isbn);
+        try{
+            return this.bookDao.setBookToBorrowed(isbn);
+        } catch(Exception e){
+            return 0;
+        }
     }
 
     //반납 승인(DB Book.is_borrow 0으로 갱신)
@@ -97,7 +123,11 @@ public class BookService { // 예외처리 및 데이터 가공 등등을 해야
      * @return
      */
     public int allowToReturnBook(String isbn) {
-        return this.bookDao.allowReturn(isbn);
+        try{
+            return this.bookDao.allowReturn(isbn);
+        } catch(Exception e){
+            return 0;
+        }
     }
 
     //전체 도서 목록 조회
@@ -106,6 +136,10 @@ public class BookService { // 예외처리 및 데이터 가공 등등을 해야
      * @return: 전제 도서 목록 리턴
      */
     public List<Book> showAllBooks() {
-        return this.bookDao.getAllBooks();
+        try{
+            return this.bookDao.getAllBooks();
+        } catch(Exception e){
+            return new ArrayList<Book>();
+        }
     }
 }
