@@ -64,10 +64,17 @@
             <c:url var="cancealLink" value="/book/cancealReservationPage">
                 <c:param name="bookIsbn" value="${reservation.isbn}"/>
             </c:url>
+            <c:url var="borrowLink" value="/book/makeBorrow">
+                <c:param name="bookIsbn" value="${reservation.isbn}"/>
+                <c:param name="bookTitle" value="${reservation.title}"/>
+            </c:url>
             <tr>
                 <td>${reservation.isbn}</td>
                 <td>${reservation.reservDate}</td>
+                <td>${reservation.title}</td>
+                <td class="borrow">${reservation.isBorrow}</td>
                 <td><a href="${cancealLink}" onclick="cancealReservation()">예약 취소</a></td>
+                <td><a href="${borrowLink}" onclick="borrowAtReturnBook(event)">대여</a></td>
             </tr>
         </c:forEach>
         </tbody>

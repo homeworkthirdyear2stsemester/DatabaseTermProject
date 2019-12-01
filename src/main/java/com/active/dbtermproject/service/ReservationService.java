@@ -54,7 +54,7 @@ public class ReservationService {
         try{
             return this.reservationDao.getReservationsByCustomerId(customerId);
         } catch(Exception e) {
-            return new ArrayList<ReservationAndIsBorrow>();
+            return new ArrayList<>();
         }
     }
 
@@ -82,7 +82,7 @@ public class ReservationService {
         try {
             return this.reservationDao.getAllReservByIsbn(reservation);
         } catch (Exception e) {
-            return new ArrayList<Reservation>();
+            return new ArrayList<>();
         }
     }
 
