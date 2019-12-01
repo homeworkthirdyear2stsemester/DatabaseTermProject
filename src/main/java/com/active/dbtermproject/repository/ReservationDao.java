@@ -22,10 +22,34 @@ public class ReservationDao {
 
     // 예약 추가
     public int insert(Reservation reservation) throws Exception{
-        return this.jdbcTemplate.update(
-                "insert into teamproject.reservation(customer_id,isbn,reserv_date) values(?,?,?)",
-                new Object[]{reservation.getCustomerId(), reservation.getIsbn(), reservation.getReservDate()}
+        if(isAreadyReserv(reservation)==0){//예약되어 있지않다면 insert
+            return this.jdbcTemplate.update(
+                    "insert into teamproject.reservation(customer_id,isbn,reserv_date) values(?,?,?)",
+                    new Object[]{reservation.getCustomerId(), reservation.getIsbn(), reservation.getReservDate()}
+            );
+        }else{
+            return 0;//이미 예약되어 있다면 insert안하고 0리턴
+        }
+    }
+
+    public int isAreadyReserv(Reservation reservation) throws Exception{//이미 예약자가 있는지 확인
+        List<Reservation> isreserv=jdbcTemplate.query(
+                "SELECT * FROM teamproject.reservation where isbn=?",
+                (rs, rowNum) ->
+                        Reservation.builder()
+                                .customerId(rs.getString("customer_id"))
+                                .isbn(rs.getString("isbn"))
+                                .reservDate(rs.getDate("reserv_date"))
+                                .build()
+                ,  new Object[]{reservation.getIsbn()}
         );
+        if(isreserv.size() > 0){
+            return 1;//이미 예약되어있으면 1 리턴
+        }else{
+            return 0;//예약되어 있지 않으면 1리턴
+        }
+
+
     }
 
     // 예약 삭제
@@ -49,6 +73,7 @@ public class ReservationDao {
                 , customerId
         );
     }
+
 
     // "isbn"을 예약한 목록 반환
     public List<Reservation> getAllReservByIsbn(Reservation reservation) throws Exception{
