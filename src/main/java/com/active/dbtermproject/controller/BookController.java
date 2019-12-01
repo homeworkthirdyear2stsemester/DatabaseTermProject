@@ -226,7 +226,7 @@ public class BookController { // front와 backend 연결 다리 역할
             return "redirect:bookSearchPage";
         }
 
-        return null; // error page 작성
+        return "redirect:borrowErrorHandlerPage"; // error page 작성
     }
     @GetMapping("/borrowErrorHandlerPage")
     public String borrowErrorHandlerPage(){
