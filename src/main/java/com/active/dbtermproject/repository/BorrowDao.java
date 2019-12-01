@@ -19,7 +19,7 @@ public class BorrowDao { // db접근 함수들
     @Autowired
     private BookDao bookDao;
 
-    public int insert(Borrow borrow) {
+    public int insert(Borrow borrow) throws Exception {
         String customerId = borrow.getCustomerId();
         String customerType = customerDao.getTypeById(customerId);
         int dueDate = 10;
@@ -41,7 +41,7 @@ public class BorrowDao { // db접근 함수들
     }
 
     // 반납 요청하는 함수(is_return을 1로 변경)
-    public int setReturnTrue(Borrow borrow) {
+    public int setReturnTrue(Borrow borrow) throws Exception {
         return jdbcTemplate.update(
                 "UPDATE borrow SET is_return=1 WHERE isbn=? AND customer_id=? AND is_return=0",
                 borrow.getIsbn(), borrow.getCustomerId()
@@ -50,7 +50,7 @@ public class BorrowDao { // db접근 함수들
 
 
     // start <= x <= end 기간 사이의 Top10 대출 수 회원
-    public List<Map<String, Object>> getTop10CustomerByPeriod(Date start, Date end) {
+    public List<Map<String, Object>> getTop10CustomerByPeriod(Date start, Date end) throws Exception {
         List<Map<String, Object>> top10List =
                 this.jdbcTemplate.queryForList(
                         "SELECT id, password, email, name, phone_number, type, cnt_borrow " +
@@ -74,7 +74,7 @@ public class BorrowDao { // db접근 함수들
     }
 
     //회원의 대출 현황 조회
-    public List<Borrow> getAllBorrowsById(String customerId) {
+    public List<Borrow> getAllBorrowsById(String customerId) throws Exception{
         return this.jdbcTemplate.query(
                 "SELECT * FROM borrow WHERE customer_id=? AND is_return=0",
                 (rs, rowNum) ->
@@ -92,14 +92,14 @@ public class BorrowDao { // db접근 함수들
     }
 
     // 반납된 대출 기록 삭제
-    public int deleteReturnedBorrows() {
+    public int deleteReturnedBorrows() throws Exception {
         return this.jdbcTemplate.update(
                 "DELETE FROM borrow WHERE is_return=1"
         );
     }
 
     // 반납 요청 승인 대기 목록 조회(Borrows)
-    public List<Borrow> getBorrowsThatAwaitingApprovalForReturn() {
+    public List<Borrow> getBorrowsThatAwaitingApprovalForReturn() throws Exception {
         return this.jdbcTemplate.query(
                 "SELECT borrow_number, isbn, title, customer_id, borrow_date, return_date, is_return " +
                         "FROM borrow natural join (SELECT isbn FROM book WHERE is_borrow=1) as b " +

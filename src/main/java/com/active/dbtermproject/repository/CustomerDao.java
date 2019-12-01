@@ -14,7 +14,7 @@ public class CustomerDao { // db접근 함수들
     private JdbcTemplate jdbcTemplate;
 
     // 모든 Customers 검색
-    public List<Customer> getAllCustomers() {
+    public List<Customer> getAllCustomers() throws Exception {
         return this.jdbcTemplate.query(
                 "SELECT * FROM customer",
                 (rs, rowNum) -> Customer.builder()
@@ -27,7 +27,7 @@ public class CustomerDao { // db접근 함수들
     }
 
     // 회원 가입
-    public int insert(Customer customer) {
+    public int insert(Customer customer) throws Exception {
         return this.jdbcTemplate.update(
                 "insert customer values(?, ?, ?, ?, ?, ?)",
                 customer.getId(), customer.getPassword(),
@@ -37,7 +37,7 @@ public class CustomerDao { // db접근 함수들
     }
 
     // 회원 탈퇴
-    public int delete(String customerId) {
+    public int delete(String customerId) throws Exception {
         return this.jdbcTemplate.update(
                 "delete from customer where id=?",
                 customerId
@@ -45,7 +45,7 @@ public class CustomerDao { // db접근 함수들
     }
 
     // 회원 정보 수정
-    public int update(String customerId, Customer newInfo) {
+    public int update(String customerId, Customer newInfo) throws Exception {
         return this.jdbcTemplate.update(
                 "update customer SET " +
                         "password=?, " +
@@ -64,13 +64,13 @@ public class CustomerDao { // db접근 함수들
     }
 
     // 관리자인지 확인하는 함수
-    public boolean isAdmin(String customerId) {
+    public boolean isAdmin(String customerId) throws Exception {
         String type = getTypeById(customerId);
         return type.equals("관리자");
     }
 
     // id로 customer 검색
-    public Customer getCustomerById(String customerId) {
+    public Customer getCustomerById(String customerId) throws Exception {
         return this.jdbcTemplate.queryForObject(
                 "select * from customer c where c.id=?",
                 (rs, rowNum) -> Customer.builder()
@@ -83,7 +83,7 @@ public class CustomerDao { // db접근 함수들
     }
 
     // id로 해당 customer의 type 검색
-    public String getTypeById(String customerId) {
+    public String getTypeById(String customerId) throws Exception {
         return convertType(jdbcTemplate.queryForObject(
                 "select type from customer c where c.id=?",
                 new Object[]{customerId}, String.class));
