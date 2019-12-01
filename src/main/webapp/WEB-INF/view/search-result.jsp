@@ -26,6 +26,7 @@
         <c:forEach var="book" items="${books}">
             <c:url var="borrowLink" value="/book/makeBorrow">
                 <c:param name="bookIsbn" value="${book.isbn}"/>
+                <c:param name="bookTitle" value="${book.title}"/>
             </c:url>
             <c:url var="reservateLink" value="/book/makeReservation">
                 <c:param name="bookIsbn" value="${book.isbn}"/>
@@ -36,10 +37,11 @@
                 <td class="ex2">${book.title}</td>
                 <td class="ex2">${book.author}</td>
                 <td class="ex2">${book.publisher}</td>
-                <td class="ex2">${book.isBorrow}</td>
+                <td class="borrow">${book.isBorrow}</td>
                 <td>
+
                     <a href="${borrowLink}"
-                       onclick="if (!(confirm('대출을 하시겠습니까?'))) return false">대출</a>
+                       onclick="borrowBookButton(event)">대출</a>
                     |
                     <a href="${reservateLink}"
                        onclick="if (!(confirm('예약 하시겠습니까?'))) return false">예약</a>
