@@ -15,3 +15,10 @@ function logout() {
     }
     location.href = "/user/logoutPage";// 위치 지정
 }
+
+function requestReturn() {
+    if (!(confirm("반납요청을 하기겠습니까?"))) {
+        return false;
+    }
+    location.href = "/book/waitingForReturn";
+}

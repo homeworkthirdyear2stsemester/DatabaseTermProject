@@ -27,3 +27,8 @@ function returnBookErrorHandler() {
     alert("return trascation is failed");
     location.href = "/book/authorizeReturn";
 }
+
+function requestReturnError() {
+    alert("return request is failed please do again later");
+    location.href = "/user/mainUserPage";
+}
