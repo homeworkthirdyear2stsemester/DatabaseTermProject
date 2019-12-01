@@ -1,6 +1,8 @@
 package com.active.dbtermproject.repository;
 
+import com.active.dbtermproject.domain.Book;
 import com.active.dbtermproject.domain.Borrow;
+import com.active.dbtermproject.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class BorrowDao { // db접근 함수들
@@ -21,17 +24,19 @@ public class BorrowDao { // db접근 함수들
 
     public int insert(Borrow borrow) throws Exception {
         String customerId = borrow.getCustomerId();
+
+        // book 테이블의 is_borrow를 1로 갱신
+        // 누가 이미 빌려갔다면 대출 거부
+        int setBorrowed = this.bookDao.setBookToBorrowed(borrow.getIsbn());
+        if(setBorrowed==0)
+            return 0;
+
         String customerType = customerDao.getTypeById(customerId);
         int dueDate = 10;
         if(customerType.equals("대학원생"))
             dueDate = 30;
         else if(customerType.equals("교직원"))
             dueDate = 60;
-
-        // book 테이블의 is_borrow를 1로 갱신
-        int success = this.bookDao.setBookToBorrowed(borrow.getIsbn());
-        if(success==0)
-            return 0;
 
         return this.jdbcTemplate.update(
                 "INSERT INTO borrow " +
@@ -58,9 +63,9 @@ public class BorrowDao { // db접근 함수들
                                 "(SELECT customer_id, count(*) as cnt_borrow " +
                                 "FROM borrow " +
                                 "WHERE borrow_date BETWEEN ? AND ? " +
-                                "GROUP BY customer_id " +
-                                "order by cnt_borrow desc) as b " +
-                                "WHERE id = customer_id"
+                                "GROUP BY customer_id ) as b " +
+                                "WHERE id = customer_id " +
+                                "ORDER BY cnt_borrow desc"
                         , start, end
                 );
 
@@ -102,8 +107,12 @@ public class BorrowDao { // db접근 함수들
     public List<Borrow> getBorrowsThatAwaitingApprovalForReturn() throws Exception {
         return this.jdbcTemplate.query(
                 "SELECT borrow_number, isbn, title, customer_id, borrow_date, return_date, is_return " +
+                        "FROM borrow, ( " +
+                        "SELECT MAX(borrow_number) as mn " +
                         "FROM borrow natural join (SELECT isbn FROM book WHERE is_borrow=1) as b " +
-                        "WHERE is_return=1;",
+                        "WHERE is_return=1 " +
+                        "GROUP BY isbn ) as b " +
+                    "WHERE borrow_number = mn",
                 (rs, rowNum) ->
                         Borrow.builder()
                                 .borrowNumber(rs.getInt("borrow_number"))

@@ -9,11 +9,11 @@ function gotoBookMangement() {
     if (!(confirm("책 관리 페이지로 이동하시겠습니까?"))) {
         return false;
     }
-    location.href = "/book/bookMangementPage";// 위치 지정
+    location.href = "/book/bookManagementPage";// 위치 지정
 }
 
 function logout() {
-    if (!(confirm("로그아웃 하기겠습니까?"))) {
+    if (!(confirm("로그아웃 하시겠습니까?"))) {
         return false;
     }
     location.href = "/user/logoutPage";// 위치 지정

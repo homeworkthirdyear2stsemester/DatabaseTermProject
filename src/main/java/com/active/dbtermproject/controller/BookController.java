@@ -85,7 +85,7 @@ public class BookController { // front와 backend 연결 다리 역할
         return "redirect:/book/registerError";
     }
 
-    @GetMapping("/bookMangementPage") //admin 계정만
+    @GetMapping("/bookManagementPage") //admin 계정만
     public String bookManagementPage(Model model, HttpSession httpSession) {
         Object id = httpSession.getAttribute("id");
         if (id == null || !id.equals("Admin")) {
@@ -120,7 +120,7 @@ public class BookController { // front와 backend 연결 다리 역할
             return "redirect:/book/editBookPage"; // 실패
         }
 
-        return "redirect:/book/bookMangementPage"; // 성공
+        return "redirect:/book/bookManagementPage"; // 성공
     }
 
     @GetMapping("/deleteError")
@@ -135,7 +135,7 @@ public class BookController { // front와 backend 연결 다리 역할
             return "redirect:/book/deleteError";
         }
 
-        return "redirect:/book/bookMangementPage";
+        return "redirect:/book/bookManagementPage";
     }
 
     @GetMapping("/cancealReservationPage")
@@ -226,6 +226,25 @@ public class BookController { // front와 backend 연결 다리 역할
             return "redirect:bookSearchPage";
         }
 
-        return null; // error page 작성
+        return "redirect:borrowErrorHandlerPage"; // error page 작성
+    }
+
+    @GetMapping("/borrowErrorHandlerPage")
+    public String borrowErrorHandlerPage() {
+        return "error/borrow-error-handler";
+    }
+
+    @GetMapping("/makeReservation")
+    public String makeReservation(@RequestParam("bookIsbn") String isbn,
+                                  HttpSession httpSession) {
+        Object id = httpSession.getAttribute("id");
+        if (id == null) {
+            return "redirect:../user/loginError";
+        }
+        if (this.reservationService.insertReservation((String) id, isbn) != 0) {
+            return "redirect:bookSearchPage";
+        }
+        // 실패
+        return "redirect:borrowErrorHandlerPage";
     }
 }

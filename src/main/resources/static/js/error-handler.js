@@ -32,3 +32,9 @@ function requestReturnError() {
     alert("return request is failed please do again later");
     location.href = "/user/mainUserPage";
 }
+
+function returnBorrowErrorHandler() {
+    alert("This book is unavailable to borrow or reservation.");
+    location.href = "/book/bookSearchPage";
+}
+

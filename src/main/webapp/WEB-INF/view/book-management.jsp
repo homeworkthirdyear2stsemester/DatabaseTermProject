@@ -39,7 +39,6 @@
                 <td class="ex2"> ${book.author} </td>
                 <td class="ex2">${book.publisher}</td>
                 <td class="ex2"> ${book.isBorrow}</td>
-                <td class="ex2">${book.customerId}</td>
                 <td>
                     <a href="${deleteLink}"
                        onclick="if (!(confirm('책을 목록에서 삭제 하시겠습니까?'))) return false">제거</a>

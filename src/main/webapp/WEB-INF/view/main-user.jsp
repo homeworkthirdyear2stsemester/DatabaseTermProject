@@ -30,10 +30,10 @@
     <span>도서대출목록</span>
     <table id="borrow-list">
         <thead>
-        <td>Isbn</td>
-        <td>Title</td>
-        <td>BorrowDate</td>
-        <td>ReturnDate</td>
+        <td class="ex1">Isbn</td>
+        <td class="ex1">Title</td>
+        <td class="ex1">BorrowDate</td>
+        <td class="ex1">ReturnDate</td>
         </thead>
         <tbody>
         <c:forEach var="borrow" items="${borrows}">
@@ -46,7 +46,7 @@
                 <td>${borrow.title}</td>
                 <td>${borrow.borrowDate}</td>
                 <td>${borrow.returnDate}</td>
-                <td><a href="${returnRequest}" onclick="requestReturn()">예약 취소</a></td>
+                <td><a href="${returnRequest}" onclick="requestReturn()">도서 반납</a></td>
             </tr>
         </c:forEach>
         </tbody>
