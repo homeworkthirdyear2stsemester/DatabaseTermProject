@@ -21,7 +21,7 @@ public class ReservationDao {
     private CustomerDao customerDao;
 
     // 예약 추가
-    public int insert(Reservation reservation) {
+    public int insert(Reservation reservation) throws Exception{
         return this.jdbcTemplate.update(
                 "insert into teamproject.reservation(customer_id,isbn,reserv_date) values(?,?,?)",
                 new Object[]{reservation.getCustomerId(), reservation.getIsbn(), reservation.getReservDate()}
@@ -29,7 +29,7 @@ public class ReservationDao {
     }
 
     // 예약 삭제
-    public int delete(Reservation reservation) {
+    public int delete(Reservation reservation) throws Exception{
         return this.jdbcTemplate.update(
                 "delete from teamproject.reservation where isbn=? and customer_id=?",
                 reservation.getIsbn(), reservation.getCustomerId()
@@ -37,7 +37,7 @@ public class ReservationDao {
     }
 
     //회원당 예약 목록 조회
-    public List<Reservation> getReservationsByCustomerId(String customerId) {
+    public List<Reservation> getReservationsByCustomerId(String customerId) throws Exception{
         return jdbcTemplate.query(
                 "select * from teamproject.reservation where customer_id=?",
                 (rs, rowNum) ->
@@ -51,7 +51,7 @@ public class ReservationDao {
     }
 
     // "isbn"을 예약한 목록 반환
-    public List<Reservation> getAllReservByIsbn(Reservation reservation) {
+    public List<Reservation> getAllReservByIsbn(Reservation reservation) throws Exception{
         return this.jdbcTemplate.query(
                 "SELECT * FROM reservation WHERE isbn=?",
                 (rs, rowNum) -> Reservation.builder()
@@ -63,12 +63,12 @@ public class ReservationDao {
     }
 
     //위에서 작성한 함수를 호출해 isbn이 예약한 리스트 가져와 사이즈 리턴
-    public int countReservationByIsbn(Reservation reservation) {
+    public int countReservationByIsbn(Reservation reservation) throws Exception{
         List<Reservation> listOfReservation = getAllReservByIsbn(reservation);
         return listOfReservation.size();
     }
 
-    public Date availableDate(Reservation reservation) {
+    public Date availableDate(Reservation reservation) throws Exception{
         Optional<Borrow> temp = jdbcTemplate.queryForObject(
                 "select * from teamproject.borrow where isbn=? AND is_return=0",//아직 반납되지 않은 해당 isbn이라면 return_date가져오기
                 new Object[]{reservation.getIsbn()},
@@ -88,7 +88,7 @@ public class ReservationDao {
         return calculateDate(reuturnDate, reservation);
     }
 
-    private Date calculateDate(Date inputDate, Reservation reservation) {
+    private Date calculateDate(Date inputDate, Reservation reservation) throws Exception{
         String type;
         int plusDate = 0;
         Calendar cal = Calendar.getInstance();
