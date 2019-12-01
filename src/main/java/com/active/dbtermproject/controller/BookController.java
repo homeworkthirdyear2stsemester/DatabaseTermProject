@@ -85,7 +85,7 @@ public class BookController { // front와 backend 연결 다리 역할
         return "redirect:/book/registerError";
     }
 
-    @GetMapping("/bookMangementPage") //admin 계정만
+    @GetMapping("/bookManagementPage") //admin 계정만
     public String bookManagementPage(Model model, HttpSession httpSession) {
         Object id = httpSession.getAttribute("id");
         if (id == null || !id.equals("Admin")) {
@@ -227,5 +227,9 @@ public class BookController { // front와 backend 연결 다리 역할
         }
 
         return null; // error page 작성
+    }
+    @GetMapping("/borrowErrorHandlerPage")
+    public String borrowErrorHandlerPage(){
+        return "error/borrow-error-handler";
     }
 }
