@@ -28,14 +28,14 @@ public class BorrowDao { // db접근 함수들
         // book 테이블의 is_borrow를 1로 갱신
         // 누가 이미 빌려갔다면 대출 거부
         int setBorrowed = this.bookDao.setBookToBorrowed(borrow.getIsbn());
-        if(setBorrowed==0)
+        if (setBorrowed == 0)
             return 0;
 
         String customerType = customerDao.getTypeById(customerId);
         int dueDate = 10;
-        if(customerType.equals("대학원생"))
+        if (customerType.equals("대학원생"))
             dueDate = 30;
-        else if(customerType.equals("교직원"))
+        else if (customerType.equals("교직원"))
             dueDate = 60;
 
         return this.jdbcTemplate.update(
@@ -70,8 +70,8 @@ public class BorrowDao { // db접근 함수들
                 );
 
         // 타입을 "학부생", "대학원생", "교직원"으로 반환
-        for(int i=0; i<top10List.size(); i++) {
-            String newType = customerDao.convertType((String)top10List.get(i).get("type"));
+        for (int i = 0; i < top10List.size(); i++) {
+            String newType = customerDao.convertType((String) top10List.get(i).get("type"));
             top10List.get(i).put("type", newType);
         }
 
@@ -79,7 +79,7 @@ public class BorrowDao { // db접근 함수들
     }
 
     //회원의 대출 현황 조회
-    public List<Borrow> getAllBorrowsById(String customerId) throws Exception{
+    public List<Borrow> getAllBorrowsById(String customerId) throws Exception {
         return this.jdbcTemplate.query(
                 "SELECT * FROM borrow WHERE customer_id=? AND is_return=0",
                 (rs, rowNum) ->
@@ -93,7 +93,7 @@ public class BorrowDao { // db접근 함수들
                                 .isReturn(rs.getInt("is_return"))
                                 .build()
                 , customerId
-                );
+        );
     }
 
     // 반납된 대출 기록 삭제
@@ -110,9 +110,9 @@ public class BorrowDao { // db접근 함수들
                         "FROM borrow, ( " +
                         "SELECT MAX(borrow_number) as mn " +
                         "FROM borrow natural join (SELECT isbn FROM book WHERE is_borrow=1) as b " +
-                        "WHERE is_return=1 " +
                         "GROUP BY isbn ) as b " +
-                    "WHERE borrow_number = mn",
+                        "WHERE borrow_number = mn " +
+                        "and is_return=1 ",
                 (rs, rowNum) ->
                         Borrow.builder()
                                 .borrowNumber(rs.getInt("borrow_number"))
