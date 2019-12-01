@@ -63,9 +63,9 @@ public class BorrowDao { // db접근 함수들
                                 "(SELECT customer_id, count(*) as cnt_borrow " +
                                 "FROM borrow " +
                                 "WHERE borrow_date BETWEEN ? AND ? " +
-                                "GROUP BY customer_id " +
-                                "order by cnt_borrow desc) as b " +
-                                "WHERE id = customer_id"
+                                "GROUP BY customer_id ) as b " +
+                                "WHERE id = customer_id " +
+                                "ORDER BY cnt_borrow desc"
                         , start, end
                 );
 
