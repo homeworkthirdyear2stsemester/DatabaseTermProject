@@ -1,3 +1,3 @@
 function cancealUpdateBook() {
-    location.href = "/book/bookMangementPage"
+    location.href = "/book/bookManagementPage"
 }
