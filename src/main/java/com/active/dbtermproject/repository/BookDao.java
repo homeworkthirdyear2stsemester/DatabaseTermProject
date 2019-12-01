@@ -17,14 +17,6 @@ public class BookDao { // db접근 함수들
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-  /*  //책이 몇개 존재하는지 확인
-    public int countBook(String bookIsbn) throws Exception{
-        return this.jdbcTemplate.update(
-                "select count(bookIsbn) from teamproject.book"
-        );
-    }
-*/
-
     // 도서 등록
     public int insert(Book book) throws Exception {
         return this.jdbcTemplate.update(

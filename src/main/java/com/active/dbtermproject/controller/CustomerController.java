@@ -3,6 +3,7 @@ package com.active.dbtermproject.controller;
 import com.active.dbtermproject.domain.Borrow;
 import com.active.dbtermproject.domain.Customer;
 import com.active.dbtermproject.domain.Reservation;
+import com.active.dbtermproject.domain.ReservationAndIsBorrow;
 import com.active.dbtermproject.service.BorrowService;
 import com.active.dbtermproject.service.CustomerService;
 import com.active.dbtermproject.service.ReservationService;
@@ -72,7 +73,7 @@ public class CustomerController { // front와 backend 연결 다리 역할
             return "redirect:/user/mainAdminPage";
         } // login 예외
 
-        List<Reservation> reservationList = this.reservationService.getReservationsByCustomerId((String) id);
+        List<ReservationAndIsBorrow> reservationList = this.reservationService.getReservationsByCustomerId((String) id);
 
         List<Borrow> borrowList = this.borrowService.getAllBorrowsById((String) id);
         if (borrowList == null) {
