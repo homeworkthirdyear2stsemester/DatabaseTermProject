@@ -2,9 +2,11 @@ package com.active.dbtermproject.repository;
 
 import com.active.dbtermproject.domain.Book;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,8 +17,16 @@ public class BookDao { // db접근 함수들
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    //책이 몇개 존재하는지 확인
+    public int countBook(String bookIsbn) throws Exception{
+        return this.jdbcTemplate.update(
+                "select count(bookIsbn) from teamproject.book"
+        );
+    }
+
+
     // 도서 등록
-    public int insert(Book book) {
+    public int insert(Book book) throws Exception {
         return this.jdbcTemplate.update(
                 "insert into teamproject.book(isbn, title,author,publisher,is_borrow,customer_id) values(?,?,?,?,?,?)",
                 new Object[]{book.getIsbn(), book.getTitle(), book.getAuthor(), book.getPublisher(), book.getIsBorrow(), book.getCustomerId()}
@@ -24,15 +34,15 @@ public class BookDao { // db접근 함수들
     }
 
     // 도서 삭제
-    public int delete(String bookIsbn) {
-        return this.jdbcTemplate.update(
-                "delete from teamproject.book where isbn=?",
-                bookIsbn
-        );
+    public int delete(String bookIsbn) throws Exception{
+            return this.jdbcTemplate.update(
+                    "delete from teamproject.book where isbn=?",
+                    bookIsbn
+            );
     }
 
     // 도서 정보 수정
-    public int update(Book book) {
+    public int update(Book book) throws Exception{
         return this.jdbcTemplate.update(
                 "update teamproject.book set book.title=?,author=?,publisher=?,is_borrow=?,customer_id=? where book.isbn=?;",
                 book.getTitle(), book.getAuthor(), book.getPublisher(), book.getIsBorrow(), book.getCustomerId(), book.getIsbn()
@@ -40,7 +50,7 @@ public class BookDao { // db접근 함수들
     }
 
     // 도서 ISBN으로 검색
-    public Optional<Book> searchByIsbn(String isbn) {
+    public Optional<Book> searchByIsbn(String isbn) throws Exception{
         return this.jdbcTemplate.queryForObject(
                 "select * from teamproject.book where isbn=?",
                 new Object[]{isbn},
@@ -57,7 +67,7 @@ public class BookDao { // db접근 함수들
     }
 
     // 도서 TITLE로 검색
-    public List<Book> searchByTitle(String bookTitle) {
+    public List<Book> searchByTitle(String bookTitle) throws Exception{
         return this.jdbcTemplate.query(
                 "select * from book where title=" + "'" + bookTitle + "'",//sql문
                 (rs, rowNum) ->
@@ -73,7 +83,7 @@ public class BookDao { // db접근 함수들
     }
 
     //isbn으로 대출가능 여부 확인
-    public int checkIfBorrowed(Book book) {
+    public int checkIfBorrowed(Book book) throws Exception{
         Optional<Book> book1 = this.searchByIsbn(book.getIsbn());//입력받은 isbn으로 책 정보 가져옴
         if (book1.get().getIsBorrow() == 0) {//만약 누가 빌려가지 않았다면
             return 1;//1리턴
@@ -83,7 +93,7 @@ public class BookDao { // db접근 함수들
     }
 
     //입력받은 isbn으로 is_borrow=1 갱신
-    public int setBookToBorrowed(String isbn) {
+    public int setBookToBorrowed(String isbn) throws Exception{
         return this.jdbcTemplate.update(
                 "update teamproject.book set is_borrow=1 where book.isbn=?;",
                 isbn
@@ -91,14 +101,14 @@ public class BookDao { // db접근 함수들
     }
 
     //입력받은 isbn으로 is_borrow=0 갱신
-    public int allowReturn(String isbn) {
+    public int allowReturn(String isbn) throws Exception{
         return this.jdbcTemplate.update(
                 "update teamproject.book set is_borrow=0 where book.isbn=?;",
                 isbn
         );
     }
 
-    public List<Book> getAllBooks() {
+    public List<Book> getAllBooks() throws Exception{
         return jdbcTemplate.query(
                 "select * from teamproject.book",
                 (rs, rowNum) ->
