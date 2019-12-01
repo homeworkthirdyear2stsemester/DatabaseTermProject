@@ -30,10 +30,10 @@
     <span>도서대출목록</span>
     <table id="borrow-list">
         <thead>
-        <td>isbn</td>
-        <td>title</td>
-        <td>borrowDate</td>
-        <td>returnDate</td>
+        <td>Isbn</td>
+        <td>Title</td>
+        <td>BorrowDate</td>
+        <td>ReturnDate</td>
         </thead>
         <tbody>
         <c:forEach var="borrow" items="${borrows}">
