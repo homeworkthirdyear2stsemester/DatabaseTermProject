@@ -32,12 +32,12 @@ public class BorrowService { // 예외처리 및 데이터 가공 등등을 해�
 
     //도서 반납 요청(borrow.isReturn을 1로 변경)
     /**
-     * @param borrow : borrow.isbn, borrow.customerId
+     * @param borrowNumber : borrow.customerId
      * @return : 성공시 1, 실패 시 0
      */
-    public int requestReturn(Borrow borrow) {
+    public int requestReturn(int borrowNumber) {
         try {
-            return this.borrowDao.setReturnTrue(borrow);
+            return this.borrowDao.setReturnTrue(borrowNumber);
         } catch (Exception e) {
             return 0;
         }
