@@ -107,8 +107,12 @@ public class BorrowDao { // db접근 함수들
     public List<Borrow> getBorrowsThatAwaitingApprovalForReturn() throws Exception {
         return this.jdbcTemplate.query(
                 "SELECT borrow_number, isbn, title, customer_id, borrow_date, return_date, is_return " +
+                        "FROM borrow, ( " +
+                        "SELECT MAX(borrow_number) as mn " +
                         "FROM borrow natural join (SELECT isbn FROM book WHERE is_borrow=1) as b " +
-                        "WHERE is_return=1;",
+                        "WHERE is_return=1 " +
+                        "GROUP BY isbn ) as b " +
+                    "WHERE borrow_number = mn",
                 (rs, rowNum) ->
                         Borrow.builder()
                                 .borrowNumber(rs.getInt("borrow_number"))
