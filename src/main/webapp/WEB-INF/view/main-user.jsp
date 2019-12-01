@@ -56,8 +56,8 @@
     <span>도서예약목록</span>
     <table id="reservation-list">
         <thead>
-        <td>isbn</td>
-        <td>ReservationDate</td>
+        <td class="ex1">Isbn</td>
+        <td class="ex1">ReservationDate</td>
         </thead>
         <tbody>
         <c:forEach var="reservation" items="${reservations}">
