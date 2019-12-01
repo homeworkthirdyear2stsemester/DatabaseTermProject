@@ -6,9 +6,15 @@ import lombok.Data;
 import java.sql.Date;
 
 @Data
-@Builder
 public class Reservation {
     private String customerId;
     private String isbn;
     private Date reservDate;
+
+    @Builder
+    public Reservation(String customerId, String isbn, Date reservDate) {
+        this.customerId = customerId;
+        this.isbn = isbn;
+        this.reservDate = reservDate;
+    }
 }

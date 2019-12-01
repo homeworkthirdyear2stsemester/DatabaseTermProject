@@ -1,6 +1,7 @@
 package com.active.dbtermproject.service;
 
 import com.active.dbtermproject.domain.Reservation;
+import com.active.dbtermproject.domain.ReservationAndIsBorrow;
 import com.active.dbtermproject.repository.ReservationDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,17 +44,17 @@ public class ReservationService {
         }
     }
 
-    //각 회원당 예약목록 조회
+    //각 회원당 예약목록 조회(book이랑 reservation join해서 가져온 결과)
     /**
      *
      * @param customerId : user_id
-     * @return
+     * @return: customer_id,isbn,reserv_date,is_borrow,title
      */
-    public List<Reservation> getReservationsByCustomerId(String customerId) {
+    public List<ReservationAndIsBorrow> getReservationsByCustomerId(String customerId) {
         try{
             return this.reservationDao.getReservationsByCustomerId(customerId);
         } catch(Exception e) {
-            return new ArrayList<Reservation>();
+            return new ArrayList<ReservationAndIsBorrow>();
         }
     }
 

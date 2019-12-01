@@ -2,6 +2,8 @@ package com.active.dbtermproject.repository;
 
 import com.active.dbtermproject.domain.Borrow;
 import com.active.dbtermproject.domain.Reservation;
+import com.active.dbtermproject.domain.Book;
+import com.active.dbtermproject.domain.ReservationAndIsBorrow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -21,39 +23,37 @@ public class ReservationDao {
     private CustomerDao customerDao;
 
     // 예약 추가
-    public int insert(Reservation reservation) throws Exception{
-        if(isAreadyReserv(reservation)==0){//예약되어 있지않다면 insert
+    public int insert(Reservation reservation) throws Exception {
+        if (isAreadyReserv(reservation) == 0) {//예약되어 있지않다면 insert
             return this.jdbcTemplate.update(
                     "insert into teamproject.reservation(customer_id,isbn,reserv_date) values(?,?,?)",
                     new Object[]{reservation.getCustomerId(), reservation.getIsbn(), reservation.getReservDate()}
             );
-        }else{
+        } else {
             return 0;//이미 예약되어 있다면 insert안하고 0리턴
         }
     }
 
-    public int isAreadyReserv(Reservation reservation) throws Exception{//이미 예약자가 있는지 확인
-        List<Reservation> isreserv=jdbcTemplate.query(
+    public int isAreadyReserv(Reservation reservation) throws Exception {//이미 예약자가 있는지 확인
+        List<Reservation> isreserv = jdbcTemplate.query(
                 "SELECT * FROM teamproject.reservation where isbn=?",
                 (rs, rowNum) ->
-                        Reservation.builder()
+                        ReservationAndIsBorrow.builder()
                                 .customerId(rs.getString("customer_id"))
                                 .isbn(rs.getString("isbn"))
                                 .reservDate(rs.getDate("reserv_date"))
                                 .build()
-                ,  new Object[]{reservation.getIsbn()}
+                , new Object[]{reservation.getIsbn()}
         );
-        if(isreserv.size() > 0){
+        if (isreserv.size() > 0) {
             return 1;//이미 예약되어있으면 1 리턴
-        }else{
+        } else {
             return 0;//예약되어 있지 않으면 1리턴
         }
-
-
     }
 
     // 예약 삭제
-    public int delete(Reservation reservation) throws Exception{
+    public int delete(Reservation reservation) throws Exception {
         return this.jdbcTemplate.update(
                 "delete from teamproject.reservation where isbn=? and customer_id=?",
                 reservation.getIsbn(), reservation.getCustomerId()
@@ -61,22 +61,20 @@ public class ReservationDao {
     }
 
     //회원당 예약 목록 조회
-    public List<Reservation> getReservationsByCustomerId(String customerId) throws Exception{
+    public List<ReservationAndIsBorrow> getReservationsByCustomerId(String customerId) throws Exception {
         return jdbcTemplate.query(
-                "select * from teamproject.reservation where customer_id=?",
+                "select  r.customer_id,r.isbn,r.reserv_date,b.is_borrow,b.title " +
+                        "from teamproject.reservation as r JOIN teamproject.book as b " +
+                        "where r.customer_id = ? and r.isbn=b.isbn",
                 (rs, rowNum) ->
-                        Reservation.builder()
-                                .customerId(rs.getString("customer_id"))
-                                .isbn(rs.getString("isbn"))
-                                .reservDate(rs.getDate("reserv_date"))
-                                .build()
+                        new ReservationAndIsBorrow(rs.getString("customer_id"),rs.getString("isbn"),rs.getDate("reserv_date"),rs.getInt("is_borrow"),rs.getString("title"))
                 , customerId
         );
     }
 
 
     // "isbn"을 예약한 목록 반환
-    public List<Reservation> getAllReservByIsbn(Reservation reservation) throws Exception{
+    public List<Reservation> getAllReservByIsbn(Reservation reservation) throws Exception {
         return this.jdbcTemplate.query(
                 "SELECT * FROM reservation WHERE isbn=?",
                 (rs, rowNum) -> Reservation.builder()
@@ -88,12 +86,12 @@ public class ReservationDao {
     }
 
     //위에서 작성한 함수를 호출해 isbn이 예약한 리스트 가져와 사이즈 리턴
-    public int countReservationByIsbn(Reservation reservation) throws Exception{
+    public int countReservationByIsbn(Reservation reservation) throws Exception {
         List<Reservation> listOfReservation = getAllReservByIsbn(reservation);
         return listOfReservation.size();
     }
 
-    public Date availableDate(Reservation reservation) throws Exception{
+    public Date availableDate(Reservation reservation) throws Exception {
         Optional<Borrow> temp = jdbcTemplate.queryForObject(
                 "select * from teamproject.borrow where isbn=? AND is_return=0",//아직 반납되지 않은 해당 isbn이라면 return_date가져오기
                 new Object[]{reservation.getIsbn()},
@@ -113,7 +111,7 @@ public class ReservationDao {
         return calculateDate(reuturnDate, reservation);
     }
 
-    private Date calculateDate(Date inputDate, Reservation reservation) throws Exception{
+    private Date calculateDate(Date inputDate, Reservation reservation) throws Exception {
         String type;
         int plusDate = 0;
         Calendar cal = Calendar.getInstance();
@@ -126,16 +124,16 @@ public class ReservationDao {
                                 "INNER JOIN teamproject.customer c " +
                                 "ON r.customer_id=c.id and r.isbn=? " +
                                 "GROUP BY c.type"
-                        , reservation.getIsbn());//타입당 갯수 반환
+                        , reservation.getIsbn());//타입당 인원 수 반환
 
         for (int i = 0; i < countPerType.size(); i++) {//리스트 사이즈만큼 반복
-            type= (String) countPerType.get(i).get("type");
+            type = (String) countPerType.get(i).get("type");
             if (type.equals("30")) {//타입마다 다른 일수 합치기
-                plusDate += 30 * (Long)countPerType.get(i).get("count");
+                plusDate += 30 * (Long) countPerType.get(i).get("count");
             } else if (type.equals("60")) {
-                plusDate += 60 * (Long)countPerType.get(i).get("count");
+                plusDate += 60 * (Long) countPerType.get(i).get("count");
             } else {
-                plusDate += 10 * (Long)countPerType.get(i).get("count");
+                plusDate += 10 * (Long) countPerType.get(i).get("count");
             }
         }
         cal.add(cal.DATE, plusDate);
