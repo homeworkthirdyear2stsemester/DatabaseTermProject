@@ -1,6 +1,8 @@
 package com.active.dbtermproject.repository;
 
+import com.active.dbtermproject.domain.Book;
 import com.active.dbtermproject.domain.Borrow;
+import com.active.dbtermproject.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class BorrowDao { // db접근 함수들
@@ -21,6 +24,12 @@ public class BorrowDao { // db접근 함수들
 
     public int insert(Borrow borrow) throws Exception {
         String customerId = borrow.getCustomerId();
+
+        // 누가 이미 빌려갔다면 대출 거부
+        Optional<Book> book = bookDao.searchByIsbn(borrow.getIsbn());
+        if (bookDao.checkIfBorrowed(book.get()) == 0)
+            return 0;
+
         String customerType = customerDao.getTypeById(customerId);
         int dueDate = 10;
         if(customerType.equals("대학원생"))
