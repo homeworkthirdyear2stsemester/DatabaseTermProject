@@ -22,6 +22,8 @@ function borrowBookButton(event) {
     }
 
     if (!(confirm('대출을 하시겠습니까?'))) {
+        event.preventDefault ? event.preventDefault() : (event.returnValue = false);
+
         return false
     }
 }

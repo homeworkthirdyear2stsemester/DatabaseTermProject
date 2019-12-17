@@ -35,7 +35,7 @@
                 <td class="ex2">${borrow.customerId}</td>
                 <td class="ex2">${borrow.borrowDate}</td>
                 <td class="ex2">${borrow.returnDate}</td>
-                <td class="ex2"><a href="${cancealLink}" onclick="completeTask()">반납 승인</a></td>
+                <td class="ex2"><a href="${cancealLink}" onclick="returnApproval(event)">반납 승인</a></td>
             </tr>
         </c:forEach>
         </tbody>

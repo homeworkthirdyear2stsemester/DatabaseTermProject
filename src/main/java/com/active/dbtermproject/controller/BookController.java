@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -182,7 +182,7 @@ public class BookController { // front와 backend 연결 다리 역할
 
     @GetMapping("/topTenPage")
     public String topTenPage(Model model) {
-        Date endDate = new Date(new java.util.Date().getTime());
+        Date endDate = new Date();
         Date beforeDate = this.calculateDate(endDate);
         List<Map<String, Object>> topTenData = this.borrowService.getTop10CustomerByPeriod(beforeDate, endDate);
         model.addAttribute("topTenData", topTenData);

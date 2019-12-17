@@ -1,16 +1,13 @@
 package com.active.dbtermproject.repository;
 
-import com.active.dbtermproject.domain.Book;
 import com.active.dbtermproject.domain.Borrow;
-import com.active.dbtermproject.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Repository
 public class BorrowDao { // db접근 함수들

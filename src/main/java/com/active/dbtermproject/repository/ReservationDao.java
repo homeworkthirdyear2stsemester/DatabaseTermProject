@@ -2,13 +2,12 @@ package com.active.dbtermproject.repository;
 
 import com.active.dbtermproject.domain.Borrow;
 import com.active.dbtermproject.domain.Reservation;
-import com.active.dbtermproject.domain.Book;
 import com.active.dbtermproject.domain.ReservationAndIsBorrow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +22,8 @@ public class ReservationDao {
     private CustomerDao customerDao;
 
     // 예약 추가
-    public int insert(String customerId, String isbn) throws Exception{
-        if(isAreadyReserv(isbn)==0){//예약되어 있지않다면 insert
+    public int insert(String customerId, String isbn) throws Exception {
+        if (isAreadyReserv(isbn) == 0) {//예약되어 있지않다면 insert
             return this.jdbcTemplate.update(
                     "insert into teamproject.reservation(customer_id,isbn,reserv_date) values(?,?,?)",
                     new Object[]{customerId, isbn, new Date(new java.util.Date().getTime())}
@@ -35,8 +34,8 @@ public class ReservationDao {
     }
 
 
-    private int isAreadyReserv(String isbn) throws Exception{//이미 예약자가 있는지 확인
-        List<Reservation> isreserv=jdbcTemplate.query(
+    private int isAreadyReserv(String isbn) throws Exception {//이미 예약자가 있는지 확인
+        List<Reservation> isreserv = jdbcTemplate.query(
                 "SELECT * FROM teamproject.reservation where isbn=?",
                 (rs, rowNum) ->
                         ReservationAndIsBorrow.builder()
@@ -44,7 +43,7 @@ public class ReservationDao {
                                 .isbn(rs.getString("isbn"))
                                 .reservDate(rs.getDate("reserv_date"))
                                 .build()
-                ,  new Object[]{isbn}
+                , new Object[]{isbn}
         );
         if (isreserv.size() > 0) {
             return 1;//이미 예약되어있으면 1 리턴
@@ -68,8 +67,23 @@ public class ReservationDao {
                         "from teamproject.reservation as r JOIN teamproject.book as b " +
                         "where r.customer_id = ? and r.isbn=b.isbn",
                 (rs, rowNum) ->
-                        new ReservationAndIsBorrow(rs.getString("customer_id"),rs.getString("isbn"),rs.getDate("reserv_date"),rs.getInt("is_borrow"),rs.getString("title"))
+                        new ReservationAndIsBorrow(rs.getString("customer_id")
+                                , rs.getString("isbn")
+                                , rs.getDate("reserv_date")
+                                , rs.getInt("is_borrow")
+                                , rs.getString("title"))
                 , customerId
+        );
+    }
+
+    public Optional<Date> getFastestDateFromBookReservation(String isbn) {
+        return this.jdbcTemplate.queryForObject(
+                "select min(reserv_date) " +
+                        "from teamproject.reservation  " +
+                        "where isbn = ?",
+                new Object[]{isbn},
+                (rs, rowNum) ->
+                        Optional.of(rs.getDate("reserv_date"))
         );
     }
 

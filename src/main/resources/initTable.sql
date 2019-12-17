@@ -31,8 +31,8 @@ CREATE TABLE `teamproject`.`borrow` (
   `isbn` VARCHAR(13) NULL,
   `title` VARCHAR(60) NULL,
   `customer_id` VARCHAR(20) NULL,
-  `borrow_date` DATE NULL,
-  `return_date` DATE NULL,
+  `borrow_date` DATETIME NULL,
+  `return_date` DATETIME NULL,
   `is_return` INT(10) NULL,
   PRIMARY KEY (`borrow_number`),
   INDEX `borrowFK_isbn_idx` (`isbn` ASC),
@@ -51,7 +51,7 @@ CREATE TABLE `teamproject`.`borrow` (
 CREATE TABLE `teamproject`.`reservation` (
   `customer_id` VARCHAR(20) NOT NULL,
   `isbn` VARCHAR(13) NOT NULL,
-  `reserv_date` DATE NULL,
+  `reserv_date` DATETIME NULL,
   PRIMARY KEY (`customer_id`, `isbn`),
   INDEX `reservFK_isbn_idx` (`isbn` ASC),
   CONSTRAINT `reservFK_id`

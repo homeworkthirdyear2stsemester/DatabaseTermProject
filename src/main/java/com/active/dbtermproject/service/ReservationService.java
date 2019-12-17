@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Date;
+import java.util.Date;
 
 @Service
 public class ReservationService {
@@ -82,7 +82,7 @@ public class ReservationService {
         try {
             return this.reservationDao.getAllReservByIsbn(reservation);
         } catch (Exception e) {
-            return new ArrayList<Reservation>();
+            return new ArrayList<>();
         }
     }
 
