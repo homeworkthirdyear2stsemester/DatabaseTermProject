@@ -56,8 +56,15 @@
     <span>도서예약목록</span>
     <table id="reservation-list">
         <thead>
-        <td class="ex1">Isbn</td>
-        <td class="ex1">ReservationDate</td>
+        <tr>
+            <td class="ex1">Isbn</td>
+            <td class="ex1">ReservationDate</td>
+            <td class="ex1">Title</td>
+            <td class="ex1">예약 대기자 수</td>
+            <td class="ex1">isBorrow</td>
+            <td class="ex1">예약취소</td>
+            <td class="ex1">대여</td>
+        </tr>
         </thead>
         <tbody>
         <c:forEach var="reservation" items="${reservations}">
@@ -72,6 +79,7 @@
                 <td>${reservation.isbn}</td>
                 <td>${reservation.reservDate}</td>
                 <td>${reservation.title}</td>
+                <td class="lastPerson">${reservation.numberOfRestPerson}</td>
                 <td class="borrow">${reservation.isBorrow}</td>
                 <td><a href="${cancealLink}" onclick="cancealReservation()">예약 취소</a></td>
                 <td><a href="${borrowLink}" onclick="borrowAtReturnBook(event)">대여</a></td>

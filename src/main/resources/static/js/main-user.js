@@ -30,8 +30,16 @@ function borrowAtReturnBook(event) {
     for (let index = 0; index < arrayData.length; index++) {
         const classNameData = arrayData.item(index);
         if (classNameData.className && classNameData.className === 'borrow'
-            && classNameData.firstChild && classNameData.firstChild.data &&classNameData.firstChild.data === '1') {
+            && classNameData.firstChild && classNameData.firstChild.data && classNameData.firstChild.data === '1') {
             alert("이미 대여중입니다!");
+            event.preventDefault ? event.preventDefault() : (event.returnValue = false);
+
+            return false;
+        }
+
+        if (classNameData.className && classNameData.className === 'lastPerson'
+            && classNameData.firstChild && classNameData.firstChild.data && parseInt(classNameData.firstChild.data) > 1) {
+            alert("대기자가 있습니다!");
             event.preventDefault ? event.preventDefault() : (event.returnValue = false);
 
             return false;

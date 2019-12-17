@@ -18,37 +18,34 @@ public class ReservationDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    @Autowired
-    private CustomerDao customerDao;
 
     // 예약 추가
     public int insert(String customerId, String isbn) throws Exception {
-        if (isAreadyReserv(isbn) == 0) {//예약되어 있지않다면 insert
+        if (!this.isAreadyReserv(customerId, isbn).isPresent()) {
             return this.jdbcTemplate.update(
                     "insert into teamproject.reservation(customer_id,isbn,reserv_date) values(?,?,?)",
                     new Object[]{customerId, isbn, new Date(new java.util.Date().getTime())}
             );
-        } else {
-            return 0;//이미 예약되어 있다면 insert안하고 0리턴
         }
+        return 0;
     }
 
 
-    private int isAreadyReserv(String isbn) throws Exception {//이미 예약자가 있는지 확인
-        List<Reservation> isreserv = jdbcTemplate.query(
-                "SELECT * FROM teamproject.reservation where isbn=?",
-                (rs, rowNum) ->
-                        ReservationAndIsBorrow.builder()
-                                .customerId(rs.getString("customer_id"))
-                                .isbn(rs.getString("isbn"))
-                                .reservDate(rs.getDate("reserv_date"))
-                                .build()
-                , new Object[]{isbn}
-        );
-        if (isreserv.size() > 0) {
-            return 1;//이미 예약되어있으면 1 리턴
-        } else {
-            return 0;//예약되어 있지 않으면 1리턴
+    private Optional<Reservation> isAreadyReserv(String customerId, String isbn) {//이미 예약자가 있는지 확인
+        try {
+            return this.jdbcTemplate.queryForObject(
+                    "SELECT * FROM teamproject.reservation " +
+                            "WHERE isbn=? AND customer_id=?",
+                    new Object[]{isbn, customerId},
+                    (rs, rowNum) ->
+                            Optional.of(Reservation.builder()
+                                    .customerId(rs.getString("customer_id"))
+                                    .isbn(rs.getString("isbn"))
+                                    .reservDate(rs.getDate("reserv_date"))
+                                    .build())
+            );
+        } catch (Exception e) {
+            return Optional.empty();
         }
     }
 
@@ -63,15 +60,22 @@ public class ReservationDao {
     //회원당 예약 목록 조회
     public List<ReservationAndIsBorrow> getReservationsByCustomerId(String customerId) throws Exception {
         return jdbcTemplate.query(
-                "select  r.customer_id,r.isbn,r.reserv_date,b.is_borrow,b.title " +
-                        "from teamproject.reservation as r JOIN teamproject.book as b " +
-                        "where r.customer_id = ? and r.isbn=b.isbn",
+                "select * " +
+                        "from (" +
+                        "(" +
+                        "select r.*, rank() over(partition by r.isbn order by r.reserv_date) ranking " +
+                        "from teamproject.reservation as r" +
+                        ")  as result" +
+                        " JOIN teamproject.book as b " +
+                        "on result.isbn = b.isbn ) " +
+                        "where result.customer_id= ?",
                 (rs, rowNum) ->
                         new ReservationAndIsBorrow(rs.getString("customer_id")
                                 , rs.getString("isbn")
                                 , rs.getDate("reserv_date")
                                 , rs.getInt("is_borrow")
-                                , rs.getString("title"))
+                                , rs.getString("title")
+                                , rs.getInt("ranking"))
                 , customerId
         );
     }
