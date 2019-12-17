@@ -23,7 +23,7 @@ CREATE TABLE `teamproject`.`book` (
   CONSTRAINT `book_fk`
     FOREIGN KEY (`customer_id`)
     REFERENCES `teamproject`.`customer` (`id`)
-    ON DELETE CASCADE
+    ON DELETE SET NULL
     ON UPDATE CASCADE);
     
 CREATE TABLE `teamproject`.`borrow` (
