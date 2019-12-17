@@ -17,6 +17,7 @@
             <input type="button" onclick="logout()" value="로그아웃"/>
             <input type="button" onclick="authorizeReturn()" value="반납승인대기 목록"/>
             <input type="button" onclick="gotoTopTenPage()" value="Top 10 조회"/>
+            <input type="button" onclick="gotoUserAdmin()" value="모든 사용자 정보"/>
         </td>
     </tr>
 </table>

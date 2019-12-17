@@ -9,12 +9,13 @@
 </head>
 <body>
 
-<form:form action="changeCustomerData" modelAttribute="customer" method="POST">
+<form:form action="changeAdminEditUser" modelAttribute="customer" method="POST">
     <table border="1" align="center" width="500">
         <tr>
             <th colspan="2">프로필 수정하기</th>
         </tr>
         <tr>
+            <form:hidden path="id" maxlength="20"/>
             <td>암호 재입력</td>
             <td><form:password path="password" maxlength="20"/></td>
         </tr>
@@ -28,7 +29,7 @@
         </tr>
         <tr>
             <td>전화번호 재입력</td>
-            <td><form:input path="phoneNumber" maxlength="11" /></td>
+            <td><form:input path="phoneNumber" maxlength="11"/></td>
         </tr>
         <tr>
             <td>회원 분류</td>
@@ -41,13 +42,12 @@
         <tr>
             <td colspan="2" align="center">
                 <input type="submit" value="프로필 수정">
-                <input type="button" onclick="cancelEditing()" value="취소">
-                <input type="button" onclick="deleteProfile()" value="삭제">
+                <input type="button" onclick="cancelAdminEditing()" value="취소">
             </td>
         </tr>
     </table>
 </form:form>
-<script type="text/javascript" src="/resources/js/edit-profile.js">
+<script type="text/javascript" src="/resources/js/admin-edit-profile.js">
 </script>
 </body>
 </html>

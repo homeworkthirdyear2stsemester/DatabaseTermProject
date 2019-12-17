@@ -2,7 +2,6 @@ package com.active.dbtermproject.controller;
 
 import com.active.dbtermproject.domain.Borrow;
 import com.active.dbtermproject.domain.Customer;
-import com.active.dbtermproject.domain.Reservation;
 import com.active.dbtermproject.domain.ReservationAndIsBorrow;
 import com.active.dbtermproject.service.BorrowService;
 import com.active.dbtermproject.service.CustomerService;
@@ -10,10 +9,7 @@ import com.active.dbtermproject.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -116,7 +112,7 @@ public class CustomerController { // front와 backend 연결 다리 역할
     public String loginCheck(@ModelAttribute("customer") Customer customer,
                              HttpSession httpSession) {
         Customer databaseCustomer = this.customerService.getCustomerByIdService(customer.getId());
-        if(databaseCustomer == null){
+        if (databaseCustomer == null) {
             return "redirect:/user/login";//입력된 ID가 존재하지 않을 경우
         }
         if (databaseCustomer.getId().equals(customer.getId()) &&
@@ -163,5 +159,65 @@ public class CustomerController { // front와 backend 연결 다리 역할
         }
 
         return "redirect:/user/login";
+    }
+
+    @GetMapping("/userManagementPage")
+    public String userManagement(Model model, HttpSession httpSession) {
+        Object id = httpSession.getAttribute("id");
+        if (id == null) {
+            return "redirect:/user/loginError"; // login 안되어있을 경우
+        }
+        List<Customer> customerList = this.customerService.getAllCustomers();
+        model.addAttribute("customerList", customerList);
+
+        return "admin-user-change";
+    }
+
+    @GetMapping("/adminUserDelete")
+    public String adminUserDeleteControl(@RequestParam("userId") String userId, HttpSession httpSession) {
+        Object id = httpSession.getAttribute("id");
+        if (id == null) {
+            return "redirect:/user/loginError"; // login 안되어있을 경우
+        }
+
+        if (this.customerService.deleteService(userId) != 0) {
+            if (userId.equals("Admin")) {
+                return "redirect:/user/logoutPage";
+            }
+            return "redirect:/user/userManagementPage";
+        }
+        return "redirect:/user/userManagementPage";
+    }
+
+    @GetMapping("/adminEditUserPage")
+    public String adminEditUserPageControl(@RequestParam("userId") String userId,
+                                           Model model,
+                                           HttpSession httpSession) {
+        Object id = httpSession.getAttribute("id");
+        if (id == null) {
+            return "redirect:/user/loginError"; // login 안되어있을 경우
+        }
+
+        Customer customer = new Customer();
+        customer.setId(userId);
+        model.addAttribute("customer", customer);
+
+        return "admin-edit-profile";
+    }
+
+    @PostMapping("/changeAdminEditUser")
+    public String changeAdminEditUser(@ModelAttribute("customer") Customer customer,
+                                      HttpSession httpSession) {
+        Object id = httpSession.getAttribute("id");
+        if (id == null) {
+            return "redirect:/user/loginError"; // login 안되어있을 경우
+        }
+
+        int result = this.customerService.updateService(customer.getId(), customer);
+        if (result != 0) {
+            return "redirect:/user/userManagementPage";
+        }
+
+        return "redirect:/user/userManagementPage";
     }
 }

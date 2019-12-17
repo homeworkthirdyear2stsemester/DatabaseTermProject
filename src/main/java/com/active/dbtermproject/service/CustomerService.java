@@ -82,7 +82,7 @@ public class CustomerService { // 예외처리 및 데이터 가공 등등을 �
         try {
             return customerDao.getAllCustomers();
         } catch (Exception e) {
-            return new ArrayList<Customer>();
+            return new ArrayList<>();
         }
     }
 

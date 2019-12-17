@@ -32,3 +32,7 @@ function gotoTopTenPage() {
     }
     location.href = "/book/topTenPage";
 }
+
+function gotoUserAdmin() {
+    location.href = "/user/userManagementPage";
+}
